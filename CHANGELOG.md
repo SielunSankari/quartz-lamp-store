@@ -1,3 +1,10 @@
+# 1.0.0 (2026-06-23)
+
+
+### Features
+
+* redesign homepage hero and header (clinical glassmorphism) ([d95880c](https://github.com/SielunSankari/quartz-lamp-store/commit/d95880c2cb20ebc91ad373d93792fd7184362785))
+
 ## [3.66.2](https://github.com/ixartz/Next-js-Boilerplate/compare/v3.66.1...v3.66.2) (2025-04-12)
 
 
