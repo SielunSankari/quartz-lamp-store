@@ -13,7 +13,7 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     Story => (
-      <NextIntlClientProvider locale="kz" messages={messages}>
+      <NextIntlClientProvider locale="kz" messages={messages as unknown as React.ComponentProps<typeof NextIntlClientProvider>['messages']}>
         <Story />
       </NextIntlClientProvider>
     ),

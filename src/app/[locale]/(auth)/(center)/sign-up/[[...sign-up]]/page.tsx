@@ -1,4 +1,4 @@
-import { RegisterForm } from '@/components/RegisterForm';
+import { AuthButtons } from '@/components/AuthButtons';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 type ISignUpPageProps = {
@@ -28,7 +28,7 @@ export default async function SignUpPage({ params }: ISignUpPageProps) {
 
   return (
     <div>
-      <RegisterForm locale={locale} />
+      <AuthButtons locale={locale} />
     </div>
   );
 }

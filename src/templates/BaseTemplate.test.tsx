@@ -7,7 +7,7 @@ describe('Base template', () => {
   describe('Render method', () => {
     it('should have 3 menu items', () => {
       render(
-        <NextIntlClientProvider locale="kz" messages={messages}>
+        <NextIntlClientProvider locale="kz" messages={messages as unknown as React.ComponentProps<typeof NextIntlClientProvider>['messages']}>
           <BaseTemplate
             leftNav={(
               <>
@@ -29,7 +29,7 @@ describe('Base template', () => {
 
     it('should have a link to support creativedesignsguru.com', () => {
       render(
-        <NextIntlClientProvider locale="kz" messages={messages}>
+        <NextIntlClientProvider locale="kz" messages={messages as unknown as React.ComponentProps<typeof NextIntlClientProvider>['messages']}>
           <BaseTemplate leftNav={<li>1</li>}>{null}</BaseTemplate>
         </NextIntlClientProvider>,
       );

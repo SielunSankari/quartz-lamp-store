@@ -1,4 +1,4 @@
-import { LoginForm } from '@/components/LoginForm';
+import { AuthButtons } from '@/components/AuthButtons';
 import { routing } from '@/libs/i18nNavigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
@@ -29,7 +29,7 @@ export default async function SignInPage({ params }: ISignInPageProps) {
 
   return (
     <div>
-      <LoginForm locale={locale} />
+      <AuthButtons locale={locale} />
     </div>
   );
 }

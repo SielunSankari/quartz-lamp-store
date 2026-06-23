@@ -7,15 +7,6 @@ import { routing } from './libs/i18nNavigation';
 
 const intlMiddleware = createMiddleware(routing);
 
-const isProtectedRoute = (pathname: string) =>
-  pathname.startsWith('/dashboard') || pathname.match(/^\/[a-z]{2}\/dashboard/);
-
-const isAuthPage = (pathname: string) =>
-  pathname.startsWith('/sign-in')
-  || pathname.startsWith('/sign-up')
-  || pathname.match(/^\/[a-z]{2}\/sign-in/)
-  || pathname.match(/^\/[a-z]{2}\/sign-up/);
-
 const aj = arcjet.withRule(
   detectBot({
     mode: 'LIVE',
@@ -29,46 +20,33 @@ export default async function middleware(
 ) {
   const { pathname } = request.nextUrl;
 
-  // Логирование пути и локали
-  // console.log('Request Path:', pathname);
-  // console.log('Locale:', request.nextUrl.locale || routing.defaultLocale);
-
-  if (process.env.ARCJET_KEY) {
-    const decision = await aj.protect(request);
-
-    if (decision.isDenied()) {
-      if (decision.reason.isBot()) {
-        throw new Error('No bots allowed');
-      }
-
-      throw new Error('Access denied');
-    }
+  // API-маршруты (Stripe checkout/webhook) пропускаем без i18n и проверки ботов —
+  // иначе вебхук Stripe будет принят за бота и заблокирован.
+  if (pathname.startsWith('/api')) {
+    return NextResponse.next();
   }
 
   if (pathname === '/sitemap.xml' || pathname === '/robots.txt') {
     return NextResponse.next();
   }
 
-  if (isAuthPage(pathname)) {
-    // console.log('Auth page detected:', pathname);
-    return intlMiddleware(request);
+  // Защита от ботов (если задан ARCJET_KEY).
+  if (process.env.ARCJET_KEY) {
+    const decision = await aj.protect(request);
+    if (decision.isDenied()) {
+      throw new Error(decision.reason.isBot() ? 'No bots allowed' : 'Access denied');
+    }
   }
 
-  if (isProtectedRoute(pathname)) {
-    // console.log('Protected route detected:', pathname);
-    return intlMiddleware(request);
-  }
-
+  // Локализация (kz/ru) — для всех остальных страниц.
   return intlMiddleware(request);
 }
 
 export const config = {
   matcher: [
-    '/((?!_next|monitoring|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    '/(api|trpc)(.*)',
-    '/sign-in(.*)', // Добавляем маршрут без локали
-    '/sign-up(.*)', // Для регистрации
-    '/:locale/sign-in(.*)', // Локализованные маршруты
-    '/:locale/dashboard(.*)', // Локализованные защищенные маршруты
+    '/((?!_next|monitoring|api|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    '/sign-in(.*)',
+    '/sign-up(.*)',
+    '/:locale/sign-in(.*)',
   ],
 };

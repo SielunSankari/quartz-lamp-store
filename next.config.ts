@@ -18,10 +18,14 @@ export default withSentryConfig(
       },
       poweredByHeader: false,
       reactStrictMode: true,
-      serverExternalPackages: ['@electric-sql/pglite'],
 
       images: {
-        domains: ['i.ibb.co.com'], // Разрешите нужные домены
+        // Firebase Storage и Google-аватары (фото из Google-аккаунта)
+        remotePatterns: [
+          { protocol: 'https', hostname: 'firebasestorage.googleapis.com' },
+          { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
+          { protocol: 'https', hostname: 'i.ibb.co' },
+        ],
       },
     }),
   ),
