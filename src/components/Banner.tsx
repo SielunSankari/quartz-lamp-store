@@ -1,145 +1,73 @@
-'use client';
-
-import { Button } from '@/components/ui/button';
+import { RotatingText } from '@/components/RotatingText';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
-import { Autoplay, Pagination } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
 
-// Вынес кнопки в отдельный компонент
-const ActionButtons = ({ t }: { t: any }) => (
-  <div className="flex gap-4 py-12">
-    <Link href="/products" className="inline-block">
-      <Button className="p-7 text-lg font-normal tracking-wide">
-        {t('buy_now')}
-      </Button>
-    </Link>
-
-    <Link
-      href="https://kaspi.kz/shop/search/?text=BAIMED&q=%3AavailableInZones%3AMagnum_ZONE5&sort=relevance&filteredByCategory=false&sc="
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-block"
-    >
-      <Button
-        variant="outline"
-        className="p-7 text-lg font-normal tracking-wide
-      border-red-600 text-red-600
-      hover:bg-red-600 hover:text-white
-      transition-colors
-      rounded-md
-      focus-visible:ring-2 focus-visible:ring-red-400
-      focus-visible:ring-offset-2"
-      >
-        {t('kaspi_store')}
-      </Button>
-    </Link>
-  </div>
-);
-
+// Hero: слева — лампа, парящая вверх-вниз (без стеклянной панели);
+// справа — текст. Холодная клиническая палитра, акцент — приятный sky-600.
 const Banner = () => {
-  const t = useTranslations('Banner');
-
-  const slides = [
-    {
-      title: t('title1'),
-      subtitle: t('subtitle1'),
-      image: {
-        background: '/assets/images/blob-1.svg',
-        overlay: '/assets/images/Obluchatel.png',
-        alt: 'Obluchatel',
-        inlineImage: '/assets/images/thumbs-up-man.png',
-      },
-    },
-    {
-      title: t('title2'),
-      subtitle: t('subtitle2'),
-      image: {
-        background: '/assets/images/blob-2.svg',
-        overlay: '/assets/images/Box.png',
-        alt: 'overlay',
-      },
-    },
-    {
-      title: t('title3'),
-      subtitle: t('subtitle3'),
-      image: {
-        background: '/assets/images/blob-3.svg',
-        overlay: '/assets/images/Certificate.jpg',
-        alt: 'certificate',
-      },
-    },
-  ];
+  const t = useTranslations('Hero');
+  const qualities = t.raw('qualities') as string[];
 
   return (
-    <div className="bg-gray-100 mt-2">
-      <Swiper
-        spaceBetween={30}
-        centeredSlides
-        autoplay={{ delay: 4000, disableOnInteraction: false }}
-        pagination={{ clickable: true }}
-        modules={[Autoplay, Pagination]}
-        className="mySwiper"
-      >
-        {slides.map((slide, index) => (
-          <SwiperSlide key={slide.title} className="cursor-pointer">
-            <section className={`container ${index !== 0 ? 'md:pt-10 md:pb-5' : ''}`}>
-              <div className="grid grid-cols-1 md:grid-cols-2 items-center">
-                {/* Левая колонка */}
-                <div className="relative">
-                  <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold py-4 text-gray-900">
-                    {index === 0
-                      ? (
-                          <span className="inline">
-                            {slide.title}
-                            <Image
-                              alt={slide.image.alt}
-                              src={slide.image.inlineImage!}
-                              width={50}
-                              height={50}
-                              className="inline-block w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20"
-                            />
-                          </span>
-                        )
-                      : (
-                          slide.title
-                        )}
-                  </h1>
-                  <p className="py-4 text-base md:text-xl text-gray-700">
-                    {slide.subtitle}
-                  </p>
-                  <ActionButtons t={t} />
-                </div>
+    <section className="relative overflow-hidden rounded-[2.5rem] bg-white">
+      {/* Сине-фиолетовый озоновый ореол по центру за лампой (УФ = «за фиолетом») */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div className="absolute left-1/2 top-1/2 h-[23rem] w-[23rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-200/45 blur-3xl md:left-[34%]" />
+        <div className="absolute left-1/2 top-1/2 h-[20rem] w-[20rem] -translate-x-[42%] -translate-y-[58%] rounded-full bg-violet-300/35 blur-3xl md:left-[38%]" />
+        <div className="absolute left-[20%] top-[16%] h-64 w-64 rounded-full bg-cyan-200/35 blur-3xl" />
+        <div className="absolute bottom-[4%] right-[12%] h-64 w-64 rounded-full bg-violet-200/40 blur-3xl" />
+      </div>
 
-                {/* Правая колонка */}
-                <div className="relative w-full h-[400px] md:h-[400px] lg:h-[500px]">
-                  <Image
-                    alt="background"
-                    src={slide.image.background}
-                    fill
-                    className="rounded-lg object-cover"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Image
-                      alt={slide.image.alt}
-                      src={slide.image.overlay}
-                      width={index === 2 ? 300 : 350}
-                      height={index === 2 ? 350 : 400}
-                      className="shadow-xl"
-                    />
-                  </div>
-                </div>
-              </div>
-            </section>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>
+      <div className="relative mx-auto grid max-w-5xl grid-cols-1 items-center gap-8 px-4 py-12 md:grid-cols-2 md:gap-6 md:py-16">
+        {/* ЛЕВО — парящая лампа, без обводки (сдвинута правее) */}
+        <div className="flex justify-center md:justify-center md:pl-12">
+          <Image
+            src="/assets/images/lamp-hero.png"
+            alt="Бактерицидная УФ-лампа BAIMED"
+            width={704}
+            height={1525}
+            priority
+            sizes="(max-width: 768px) 60vw, 30vw"
+            className="float-slow h-[340px] w-auto object-contain drop-shadow-[0_30px_50px_rgba(56,128,255,0.22)] md:h-[540px]"
+          />
+        </div>
+
+        {/* ПРАВО — текст */}
+        <div className="text-center md:text-left">
+          <p className="font-sans text-sm font-medium uppercase tracking-[0.25em] text-slate-500 md:text-base">
+            {t('eyebrow')}
+          </p>
+
+          <h1 className="mt-2 font-sans text-4xl font-semibold leading-[1.05] tracking-tight text-slate-900 sm:text-5xl md:text-6xl">
+            {t('title')}
+          </h1>
+
+          {/* Меняющиеся важные качества лампы */}
+          <div className="mt-4 h-9 md:h-10">
+            <RotatingText
+              items={qualities}
+              className="font-sans text-2xl font-medium tracking-tight text-sky-600 md:text-3xl"
+            />
+          </div>
+
+          <p className="mx-auto mt-6 max-w-md font-sans text-base leading-relaxed text-slate-600 md:mx-0 md:text-lg">
+            {t('subtitle')}
+          </p>
+
+          {/* Стеклянный CTA */}
+          <Link href="/products/" className="mt-8 inline-flex">
+            <span className="cta-glass rounded-full px-9 py-4 text-base font-medium tracking-wide">
+              {t('cta')}
+            </span>
+          </Link>
+
+          <p className="mt-8 font-sans text-xs tracking-wide text-slate-500 md:text-sm">
+            {t('trust')}
+          </p>
+        </div>
+      </div>
+    </section>
   );
 };
 

@@ -11,33 +11,33 @@ export const BaseTemplate = (props: {
   const t = useTranslations('BaseTemplate');
 
   return (
-    <div className="min-h-screen flex flex-col text-gray-700  bg-gray-100 antialiased">
-      <header className="border-b border-gray-300 pb-8 pt-6 w-full px-0.5 md:px-0.5 mx-auto max-w-screen-md flex-1">
-        <div className="flex items-center justify-between gap-4 mb-6">
-          <div className="flex flex-col gap-2 items-start text-left">
-            <Image
-              src="/Logo.svg"
-              alt="baimed"
-              width={48}
-              height={48}
-              className="h-12 w-auto"
-            />
+    <div className="min-h-screen flex flex-col text-ink bg-paper antialiased">
+      {/* Полноширинная стеклянная sticky-шапка */}
+      <header className="sticky top-0 z-50 w-full border-b border-white/50 bg-white/40 shadow-[0_8px_30px_-14px_rgba(15,23,42,0.12)] backdrop-blur-2xl backdrop-saturate-150">
+        <div className="mx-auto flex w-full max-w-screen-xl flex-wrap items-center justify-between gap-x-8 gap-y-3 px-4 py-4 sm:px-6 lg:px-8">
+          {/* Лого */}
+          <Image
+            src="/Logo.svg"
+            alt="baimed"
+            width={48}
+            height={48}
+            className="h-11 w-auto shrink-0"
+          />
+
+          {/* Навигация + действия (справа) */}
+          <div className="flex flex-1 flex-wrap items-center justify-end gap-x-7 gap-y-2">
+            <nav>
+              <ul className="flex flex-wrap items-center gap-x-6 gap-y-1 text-base font-medium text-gray-800">
+                {props.leftNav}
+              </ul>
+            </nav>
+
+            <nav>
+              <ul className="flex items-center gap-4 text-sm font-medium text-gray-800">
+                {props.rightNav}
+              </ul>
+            </nav>
           </div>
-        </div>
-
-        {/* Bottom part: Navigation */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <nav>
-            <ul className="flex flex-wrap gap-x-4 gap-y-2 text-base md:text-lg font-medium text-gray-800">
-              {props.leftNav}
-            </ul>
-          </nav>
-
-          <nav>
-            <ul className="flex flex-wrap gap-x-4 gap-y-2 text-base md:text-lg font-medium text-gray-800">
-              {props.rightNav}
-            </ul>
-          </nav>
         </div>
       </header>
 

@@ -3,6 +3,17 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ───────── Концепт «Хирургический глассморфизм»: дизайн-токены ─────────
+   Кристально-холодная стерильная палитра. Утилиты: bg-paper, text-ink, bg-uv,
+   font-sans (Inter). Без тёплых оттенков и без засечек. */
+@theme {
+  --color-paper: #f8fafc; /* кристально-холодный белый (slate-50) — стерильная база */
+  --color-ink: #0f172a; /* холодный графит (slate-900) — текст */
+  --color-uv: #cbe7ee; /* ледяной cyan — озон/УФ-свечение */
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -116,6 +127,75 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+  }
+}
+
+/* ───────── «Хирургический глассморфизм»: стекло, озон, движение ───────── */
+
+/* Монолитная стеклянная панель (Frosted / Liquid Glass): глубокий blur,
+   полупрозрачный белый бордер 1px (скос дорогой линзы), парение по Z. */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(32px) saturate(150%);
+  -webkit-backdrop-filter: blur(32px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.7),
+    0 30px 70px -28px rgba(56, 128, 255, 0.28);
+}
+
+/* Стеклянный CTA. При наведении не красится, а усиливает размытие, слегка
+   утапливается по Z и подсвечивается изнутри мягким голубым эмбиент-светом. */
+.cta-glass {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  color: #0f172a;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 10px 30px -12px rgba(56, 128, 255, 0.35);
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    backdrop-filter 0.35s ease,
+    background 0.35s ease,
+    color 0.35s ease;
+}
+.cta-glass:hover {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  transform: translateY(1px) scale(0.99);
+  color: #0c4a6e;
+  box-shadow:
+    inset 0 0 22px rgba(34, 211, 238, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 6px 18px -10px rgba(56, 128, 255, 0.5),
+    0 0 28px 0 rgba(56, 189, 248, 0.45);
+}
+.cta-glass:active {
+  transform: translateY(2px) scale(0.985);
+}
+
+/* Объект «оседает» в воздухе — медленное парение, как пыль в тишине. */
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+.float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float-slow {
+    animation: none;
   }
 }
 

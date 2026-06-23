@@ -1,68 +1,58 @@
 'use client';
 
-import { useUserStore } from '@/stores/useUserStore';
-import axios from 'axios';
+import { useAuth } from '@/providers/AuthProvider';
+import { LogIn, LogOut, User } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import { LocaleSwitcher } from './LocaleSwitcher';
 
+// Иконка-кнопка с подсказкой: круглая зона, мягкая hover-«таблетка».
+const iconBtn
+  = 'flex h-9 w-9 items-center justify-center rounded-full text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900';
+
 export const RightNav = () => {
-  const user = useUserStore(state => state.user);
-  const setUser = useUserStore(state => state.setUser);
-  const [isMounted, setIsMounted] = useState(false);
-
+  const { user, loading, logout } = useAuth();
   const t = useTranslations('RootLayout');
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null;
-  } // Или лоадер
-
-  const logout = async () => {
-    try {
-      await axios.post('http://localhost:3001/logout', {}, { withCredentials: true });
-    } finally {
-      setUser(null); // persist middleware автоматически обновит localStorage
-    }
-  };
 
   return (
     <>
-      {user
+      {!loading && user
         ? (
             <>
               <li>
-                <Link href="/personal/user-profile" className="text-gray-700 hover:text-gray-900">
-                  {t('profile_link')}
+                <Link
+                  href="/personal/user-profile"
+                  aria-label={t('profile_link')}
+                  title={t('profile_link')}
+                  className={iconBtn}
+                >
+                  <User className="h-5 w-5" />
                 </Link>
               </li>
               <li>
                 <button
-                  onClick={logout}
-                  className="text-gray-700 hover:text-gray-900 border-none bg-transparent"
+                  type="button"
+                  onClick={() => logout()}
+                  aria-label={t('logout_link')}
+                  title={t('logout_link')}
+                  className={`${iconBtn} border-none bg-transparent`}
                 >
-                  {t('logout_link')}
+                  <LogOut className="h-5 w-5" />
                 </button>
               </li>
             </>
           )
         : (
-            <>
-              <li>
-                <Link href="/sign-in/" className="text-gray-700 hover:text-gray-900">
-                  {t('sign_in_link')}
-                </Link>
-              </li>
-              <li>
-                <Link href="/sign-up/" className="text-gray-700 hover:text-gray-900">
-                  {t('sign_up_link')}
-                </Link>
-              </li>
-            </>
+            <li>
+              <Link
+                href="/sign-in/"
+                aria-label={t('sign_in_link')}
+                title={t('sign_in_link')}
+                className={iconBtn}
+              >
+                <LogIn className="h-5 w-5" />
+              </Link>
+            </li>
           )}
       <li>
         <LocaleSwitcher />
