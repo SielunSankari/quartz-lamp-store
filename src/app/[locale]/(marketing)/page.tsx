@@ -1,7 +1,7 @@
-import Advantages from '@/components/Advantages';
 import Banner from '@/components/Banner';
 import Branches from '@/components/Branches';
 import Scenarios from '@/components/Scenarios';
+import Trust from '@/components/Trust';
 import WorkingPrinciple from '@/components/WorkingPrinciple';
 
 import { getTranslations, setRequestLocale } from 'next-intl/server';
@@ -33,7 +33,7 @@ export default async function Index(props: IIndexProps) {
       <Scenarios />
       <WorkingPrinciple />
       <Branches />
-      <Advantages />
+      <Trust />
     </>
   );
 };

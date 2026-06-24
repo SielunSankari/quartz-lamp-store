@@ -32,6 +32,7 @@
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^5.0.1",
     "@logtail/pino": "^0.5.2",
+    "@number-flow/react": "^0.6.0",
     "@radix-ui/react-dropdown-menu": "^2.1.18",
     "@radix-ui/react-slot": "^1.2.0",
     "@radix-ui/react-toggle": "^1.1.12",

@@ -1,0 +1,57 @@
+import { ReviewsSection } from '@/components/reviews/ReviewsSection';
+import { StatsCounters } from '@/components/trust/StatsCounters';
+import { useTranslations } from 'next-intl';
+import Image from 'next/image';
+
+const Trust = () => {
+  const t = useTranslations('Trust');
+
+  return (
+    <section className="my-12 overflow-hidden rounded-[2.5rem] bg-white md:my-16">
+      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 md:py-20">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="font-sans text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">
+            {t('title')}
+          </h2>
+          <p className="mx-auto mt-5 max-w-xl font-sans text-base leading-relaxed text-slate-500 md:text-lg">
+            {t('subtitle')}
+          </p>
+        </div>
+
+        {/* Анимированные счётчики */}
+        <StatsCounters />
+
+        {/* Карусель отзывов + форма */}
+        <ReviewsSection />
+
+        {/* Сертификаты */}
+        <div className="mt-16 flex flex-col items-center gap-6 rounded-3xl border border-slate-200/70 bg-slate-50/70 p-8 text-center md:flex-row md:gap-8 md:p-10 md:text-left">
+          <a
+            href="/assets/images/Attestat-UF-lampyi.png"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 transition-transform hover:scale-[1.02]"
+          >
+            <Image
+              src="/assets/images/Attestat-UF-lampyi.png"
+              alt={t('certificate_alt')}
+              width={371}
+              height={258}
+              className="h-auto w-56 rounded-xl border border-slate-200 bg-white shadow-sm"
+            />
+          </a>
+          <div>
+            <h3 className="font-sans text-xl font-semibold text-slate-900">
+              {t('certificates_title')}
+            </h3>
+            <p className="mt-2 max-w-md font-sans text-base leading-relaxed text-slate-500">
+              {t('certificates_note')}
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Trust;

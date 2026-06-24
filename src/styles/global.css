@@ -10,6 +10,7 @@
   --color-paper: #f8fafc; /* кристально-холодный белый (slate-50) — стерильная база */
   --color-ink: #0f172a; /* холодный графит (slate-900) — текст */
   --color-uv: #cbe7ee; /* ледяной cyan — озон/УФ-свечение */
+  --color-brand: #6d5df6; /* фирменный фиолетовый — звёзды, акценты */
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }

@@ -15,8 +15,8 @@ const WorkingPrinciple = () => {
   const steps = t.raw('steps') as Step[];
 
   return (
-    <section className="py-24 md:py-32">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6">
+    <section className="my-12 overflow-hidden rounded-[2.5rem] bg-white md:my-16">
+      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 md:py-20">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="font-sans text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">
             {t.rich('title', {
@@ -29,7 +29,7 @@ const WorkingPrinciple = () => {
         </div>
 
         {/* Процесс из 3 шагов со связующей линией */}
-        <div className="relative mx-auto mt-20 max-w-4xl md:mt-24">
+        <div className="relative mx-auto mt-14 max-w-4xl md:mt-16">
           <div
             aria-hidden
             className="absolute left-[16.66%] right-[16.66%] top-12 hidden h-px bg-gradient-to-r from-sky-200 via-violet-200 to-sky-200 md:block"
@@ -60,7 +60,7 @@ const WorkingPrinciple = () => {
         </div>
 
         {/* Тихое предупреждение */}
-        <p className="mx-auto mt-20 flex max-w-md items-center justify-center gap-2 text-center font-sans text-sm text-slate-400">
+        <p className="mx-auto mt-16 flex max-w-md items-center justify-center gap-2 text-center font-sans text-sm text-slate-400">
           <IoWarningOutline className="h-4 w-4 shrink-0 text-amber-400" />
           {t('warning')}
         </p>

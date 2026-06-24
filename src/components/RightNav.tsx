@@ -61,7 +61,7 @@ export const RightNav = () => {
       <li>
         {!loading && user
           ? (
-              <DropdownMenu>
+              <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
                   <button
                     type="button"

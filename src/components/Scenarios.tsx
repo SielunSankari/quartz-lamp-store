@@ -12,7 +12,7 @@ const SCENES: { key: SceneKey; img: string }[] = [
   { key: 'office', img: '/assets/images/scene-office.png' },
   { key: 'cafe', img: '/assets/images/scene-cafe.png' },
   // TODO: заменить на реальное фото клиники (пока — временно фото офиса).
-  { key: 'clinic', img: '/assets/images/scene-office.png' },
+  { key: 'clinic', img: '/assets/images/scene-clinic.png' },
 ];
 
 const AUTOPLAY_MS = 6000;
