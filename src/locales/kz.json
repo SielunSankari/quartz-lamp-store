@@ -14,6 +14,7 @@
   },
   "BaseTemplate": {
     "description": "Сіздің денсаулығыңыз үшін қорғаныс және ыңғайлық!",
+    "delivery": "Қазақстан бойынша жеткізу",
     "made_with": "Made by <author></author>."
   },
   "Index": {
@@ -191,6 +192,7 @@
     "reviews_title": "Сатып алушылар пікірлері",
     "no_reviews": "Әзірге пікір жоқ — бірінші болыңыз!",
     "leave_review": "Пікір қалдыру",
+    "review_cta_note": "Сіздің пікіріңіз бізге маңызды",
     "your_review": "Сіздің пікіріңіз",
     "edit_review": "Пікірді өңдеу",
     "review_placeholder": "Шам туралы әсеріңізбен бөлісіңіз…",
@@ -201,7 +203,8 @@
     "login": "Кіру",
     "certificates_title": "Құжаттар мен сертификаттар",
     "certificates_note": "Әр шам — сәйкестік сертификаты, аттестат және нұсқаулықпен. EAC стандарттарына сәйкес.",
-    "certificate_alt": "BAIMED УФ-шамдарына аттестат"
+    "certificate_alt": "BAIMED УФ-шамдарына аттестат",
+    "certificate_doc_alt": "BAIMED сәйкестік сертификаты"
   },
   "WorkingPrinciple": {
     "title": "<highlight>УФ-лампа</highlight> қалай жұмыс істейді",

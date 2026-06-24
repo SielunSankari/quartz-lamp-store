@@ -4,6 +4,7 @@ import { RightNav } from '@/components/RightNav';
 import { routing } from '@/libs/i18nNavigation';
 import { AuthProvider } from '@/providers/AuthProvider';
 import { CartProvider } from '@/providers/CartProvider';
+import { CityProvider } from '@/providers/CityProvider';
 import { BaseTemplate } from '@/templates/BaseTemplate';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
@@ -53,49 +54,51 @@ export default async function RootLayout(props: {
         <NextIntlClientProvider locale={locale} messages={messages}>
           <PostHogProvider>
             <AuthProvider>
-              <CartProvider>
-                <BaseTemplate
-                  leftNav={(
-                    <>
-                      <li>
-                        <Link
-                          href="/"
-                          className="border-none text-gray-700 hover:text-gray-900"
-                        >
-                          {t('home_link')}
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/products/"
-                          className="border-none text-gray-700 hover:text-gray-900"
-                        >
-                          {t('catalog_link')}
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/contacts/"
-                          className="border-none text-gray-700 hover:text-gray-900"
-                        >
-                          {t('contacts_link')}
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/about/"
-                          className="border-none text-gray-700 hover:text-gray-900"
-                        >
-                          {t('about_link')}
-                        </Link>
-                      </li>
-                    </>
-                  )}
-                  rightNav={<RightNav />}
-                >
-                  <div className="py-5 text-xl [&_p]:my-6">{props.children}</div>
-                </BaseTemplate>
-              </CartProvider>
+              <CityProvider>
+                <CartProvider>
+                  <BaseTemplate
+                    leftNav={(
+                      <>
+                        <li>
+                          <Link
+                            href="/"
+                            className="border-none text-gray-700 hover:text-gray-900"
+                          >
+                            {t('home_link')}
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            href="/products/"
+                            className="border-none text-gray-700 hover:text-gray-900"
+                          >
+                            {t('catalog_link')}
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            href="/contacts/"
+                            className="border-none text-gray-700 hover:text-gray-900"
+                          >
+                            {t('contacts_link')}
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            href="/about/"
+                            className="border-none text-gray-700 hover:text-gray-900"
+                          >
+                            {t('about_link')}
+                          </Link>
+                        </li>
+                      </>
+                    )}
+                    rightNav={<RightNav />}
+                  >
+                    <div className="py-5 text-xl [&_p]:my-6">{props.children}</div>
+                  </BaseTemplate>
+                </CartProvider>
+              </CityProvider>
             </AuthProvider>
           </PostHogProvider>
         </NextIntlClientProvider>

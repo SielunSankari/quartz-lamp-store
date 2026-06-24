@@ -1,7 +1,7 @@
+import { CertificateViewer } from '@/components/CertificateViewer';
 import { ReviewsSection } from '@/components/reviews/ReviewsSection';
 import { StatsCounters } from '@/components/trust/StatsCounters';
 import { useTranslations } from 'next-intl';
-import Image from 'next/image';
 
 const Trust = () => {
   const t = useTranslations('Trust');
@@ -26,20 +26,10 @@ const Trust = () => {
 
         {/* Сертификаты */}
         <div className="mt-16 flex flex-col items-center gap-6 rounded-3xl border border-slate-200/70 bg-slate-50/70 p-8 text-center md:flex-row md:gap-8 md:p-10 md:text-left">
-          <a
-            href="/assets/images/Attestat-UF-lampyi.png"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shrink-0 transition-transform hover:scale-[1.02]"
-          >
-            <Image
-              src="/assets/images/Attestat-UF-lampyi.png"
-              alt={t('certificate_alt')}
-              width={371}
-              height={258}
-              className="h-auto w-56 rounded-xl border border-slate-200 bg-white shadow-sm"
-            />
-          </a>
+          <div className="flex shrink-0 items-center justify-center gap-4">
+            <CertificateViewer src="/assets/images/Certificate.jpg" alt={t('certificate_doc_alt')} />
+            <CertificateViewer src="/assets/images/Attestat-UF-lampyi.png" alt={t('certificate_alt')} />
+          </div>
           <div>
             <h3 className="font-sans text-xl font-semibold text-slate-900">
               {t('certificates_title')}

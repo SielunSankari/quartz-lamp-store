@@ -214,9 +214,23 @@
   animation: ripple 3.2s ease-in-out infinite;
 }
 
+/* Magic UI Marquee — бесконечная лента карточек (порт под Tailwind v4). */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap, 1.5rem)));
+  }
+}
+.animate-marquee {
+  animation: marquee var(--duration, 40s) linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .float-slow,
-  .animate-ripple {
+  .animate-ripple,
+  .animate-marquee {
     animation: none;
   }
 }

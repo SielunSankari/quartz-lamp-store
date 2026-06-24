@@ -1,4 +1,6 @@
+import { CitySelector } from '@/components/CitySelector';
 import { AppConfig } from '@/utils/AppConfig';
+import { Truck } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { FaInstagram, FaTiktok, FaWhatsapp } from 'react-icons/fa';
@@ -12,6 +14,17 @@ export const BaseTemplate = (props: {
 
   return (
     <div className="min-h-screen flex flex-col text-ink bg-paper antialiased">
+      {/* Тонкий топ-бар: слева город (привязан к аккаунту), справа — доставка */}
+      <div className="w-full border-b border-slate-200/60 bg-paper">
+        <div className="mx-auto flex w-full max-w-screen-xl items-center justify-between px-4 py-1.5 sm:px-6 lg:px-8">
+          <CitySelector />
+          <span className="hidden items-center gap-1.5 font-sans text-xs text-slate-500 sm:flex">
+            <Truck className="h-3.5 w-3.5 text-sky-600" strokeWidth={1.8} />
+            {t('delivery')}
+          </span>
+        </div>
+      </div>
+
       {/* Полноширинная sticky-шапка: почти белая (лёгкое стекло), чтобы тёплый
           фон под ней не «пачкал» шапку. */}
       <header className="sticky top-0 z-50 w-full border-b border-slate-200/70 bg-white/90 shadow-[0_8px_24px_-18px_rgba(15,23,42,0.18)] backdrop-blur-xl">

@@ -1,16 +1,14 @@
 'use client';
 
 import type { Review } from '@/libs/reviews';
+import { Marquee } from '@/components/magicui/marquee';
 import { ReviewCard } from '@/components/reviews/ReviewCard';
 import { ReviewForm } from '@/components/reviews/ReviewForm';
 import { subscribeReviews } from '@/libs/reviews';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
-import { Autoplay } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
 
-// Секция отзывов: живая карусель (Swiper) из Firestore + форма под ней.
+// Секция отзывов: бесконечная лента (Magic UI Marquee) из Firestore + форма.
 export function ReviewsSection() {
   const t = useTranslations('Trust');
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -32,25 +30,16 @@ export function ReviewsSection() {
 
       {reviews.length > 0
         ? (
-            <Swiper
-              modules={[Autoplay]}
-              loop={reviews.length > 3}
-              autoplay={{ delay: 3500, disableOnInteraction: false, pauseOnMouseEnter: true }}
-              speed={700}
-              spaceBetween={24}
-              breakpoints={{
-                0: { slidesPerView: 1 },
-                640: { slidesPerView: 2 },
-                1024: { slidesPerView: 3 },
-              }}
-              className="mt-8 px-1 py-2 [&_.swiper-slide]:h-auto [&_.swiper-wrapper]:items-stretch"
-            >
-              {reviews.map(r => (
-                <SwiperSlide key={r.userId} className="h-auto">
-                  <ReviewCard review={r} />
-                </SwiperSlide>
-              ))}
-            </Swiper>
+            <div className="relative mt-8">
+              <Marquee pauseOnHover duration="80s">
+                {reviews.map(r => (
+                  <ReviewCard key={r.userId} review={r} />
+                ))}
+              </Marquee>
+              {/* Мягкое затухание по краям — в цвет панели */}
+              <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent md:w-24" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent md:w-24" />
+            </div>
           )
         : loaded
           ? (

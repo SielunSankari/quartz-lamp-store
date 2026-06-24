@@ -11,7 +11,7 @@ export const ReviewCard = memo(({ review }: { review: Review }) => {
     <motion.figure
       whileHover={{ scale: 1.02 }}
       transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-      className="flex h-full flex-col rounded-3xl border border-slate-200/70 bg-white p-6 shadow-sm"
+      className="flex h-full w-[340px] max-w-[80vw] flex-col rounded-3xl border border-slate-200/70 bg-white p-6 shadow-sm"
     >
       <StarRating value={review.rating} size={16} />
 
