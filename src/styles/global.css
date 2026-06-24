@@ -193,8 +193,23 @@
   animation: float-slow 7s ease-in-out infinite;
 }
 
+/* Magic UI Ripple — пульсация концентрических волн (порт под Tailwind v4) */
+@keyframes ripple {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(0.92);
+  }
+}
+.animate-ripple {
+  animation: ripple 3.2s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .float-slow {
+  .float-slow,
+  .animate-ripple {
     animation: none;
   }
 }

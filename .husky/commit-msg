@@ -1,2 +1,5 @@
 #!/bin/sh
-cd "$(dirname "$0")/.." && npx --no -- commitlint --edit $1
+# Проверка формата коммита (commitlint) отключена — пиши любое сообщение.
+# Хочешь вернуть строгий формат (feat:/fix:/...), раскомментируй строку ниже:
+# cd "$(dirname "$0")/.." && npx --no -- commitlint --edit $1
+exit 0

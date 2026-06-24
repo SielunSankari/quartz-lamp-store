@@ -1,5 +1,6 @@
 import Advantages from '@/components/Advantages';
 import Banner from '@/components/Banner';
+import Scenarios from '@/components/Scenarios';
 import WorkingPrinciple from '@/components/WorkingPrinciple';
 
 import { getTranslations, setRequestLocale } from 'next-intl/server';
@@ -28,6 +29,7 @@ export default async function Index(props: IIndexProps) {
   return (
     <>
       <Banner />
+      <Scenarios />
       <WorkingPrinciple />
       <Advantages />
     </>

@@ -12,8 +12,9 @@ export const BaseTemplate = (props: {
 
   return (
     <div className="min-h-screen flex flex-col text-ink bg-paper antialiased">
-      {/* Полноширинная стеклянная sticky-шапка */}
-      <header className="sticky top-0 z-50 w-full border-b border-white/50 bg-white/40 shadow-[0_8px_30px_-14px_rgba(15,23,42,0.12)] backdrop-blur-2xl backdrop-saturate-150">
+      {/* Полноширинная sticky-шапка: почти белая (лёгкое стекло), чтобы тёплый
+          фон под ней не «пачкал» шапку. */}
+      <header className="sticky top-0 z-50 w-full border-b border-slate-200/70 bg-white/90 shadow-[0_8px_24px_-18px_rgba(15,23,42,0.18)] backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-screen-xl flex-wrap items-center justify-between gap-x-8 gap-y-3 px-4 py-4 sm:px-6 lg:px-8">
           {/* Лого */}
           <Image
@@ -21,7 +22,7 @@ export const BaseTemplate = (props: {
             alt="baimed"
             width={48}
             height={48}
-            className="h-11 w-auto shrink-0"
+            className="mt-1.5 h-11 w-auto shrink-0 self-start"
           />
 
           {/* Навигация + действия (справа) */}

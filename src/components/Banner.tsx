@@ -1,3 +1,4 @@
+import { Ripple } from '@/components/magicui/ripple';
 import { RotatingText } from '@/components/RotatingText';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
@@ -10,18 +11,17 @@ const Banner = () => {
   const qualities = t.raw('qualities') as string[];
 
   return (
-    <section className="relative overflow-hidden rounded-[2.5rem] bg-white">
-      {/* Сине-фиолетовый озоновый ореол по центру за лампой (УФ = «за фиолетом») */}
+    <section className="relative mb-16 overflow-hidden rounded-[2.5rem] bg-white md:mb-24">
+      {/* Мягкие холодные акценты по углам (свечение самой лампы — Ripple ниже) */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-1/2 h-[23rem] w-[23rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-200/45 blur-3xl md:left-[34%]" />
-        <div className="absolute left-1/2 top-1/2 h-[20rem] w-[20rem] -translate-x-[42%] -translate-y-[58%] rounded-full bg-violet-300/35 blur-3xl md:left-[38%]" />
-        <div className="absolute left-[20%] top-[16%] h-64 w-64 rounded-full bg-cyan-200/35 blur-3xl" />
-        <div className="absolute bottom-[4%] right-[12%] h-64 w-64 rounded-full bg-violet-200/40 blur-3xl" />
+        <div className="absolute left-[18%] top-[14%] h-64 w-64 rounded-full bg-cyan-200/30 blur-3xl" />
+        <div className="absolute bottom-[4%] right-[12%] h-64 w-64 rounded-full bg-violet-200/30 blur-3xl" />
       </div>
 
-      <div className="relative mx-auto grid max-w-5xl grid-cols-1 items-center gap-8 px-4 py-12 md:grid-cols-2 md:gap-6 md:py-16">
-        {/* ЛЕВО — парящая лампа, без обводки (сдвинута правее) */}
-        <div className="flex justify-center md:justify-center md:pl-12">
+      <div className="relative mx-auto grid max-w-5xl grid-cols-1 items-center gap-8 px-4 py-12 md:grid-cols-[45fr_55fr] md:gap-6 md:py-16">
+        {/* ЛЕВО — парящая лампа; за ней пульсирующее УФ-свечение (Magic UI Ripple) */}
+        <div className="relative flex justify-center md:justify-center md:pl-12">
+          <Ripple className="md:left-6" />
           <Image
             src="/assets/images/lamp-hero.png"
             alt="Бактерицидная УФ-лампа BAIMED"
@@ -29,7 +29,7 @@ const Banner = () => {
             height={1525}
             priority
             sizes="(max-width: 768px) 60vw, 30vw"
-            className="float-slow h-[340px] w-auto object-contain drop-shadow-[0_30px_50px_rgba(56,128,255,0.22)] md:h-[540px]"
+            className="float-slow relative z-10 h-[340px] w-auto object-contain drop-shadow-[0_30px_50px_rgba(56,128,255,0.22)] md:h-[540px]"
           />
         </div>
 
@@ -39,7 +39,7 @@ const Banner = () => {
             {t('eyebrow')}
           </p>
 
-          <h1 className="mt-2 font-sans text-4xl font-semibold leading-[1.05] tracking-tight text-slate-900 sm:text-5xl md:text-6xl">
+          <h1 className="mt-2 font-sans text-4xl font-semibold leading-[1.05] tracking-tight text-slate-900 sm:text-5xl md:text-6xl lg:text-7xl">
             {t('title')}
           </h1>
 
