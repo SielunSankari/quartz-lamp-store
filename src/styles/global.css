@@ -125,9 +125,15 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    /* Убираем горизонтальный скролл от полноширинных блоков (w-screen + скроллбар).
+       clip (а не hidden) не ломает position: sticky у шапки. */
+    overflow-x: clip;
+  }
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
+    overflow-x: clip;
   }
 }
 

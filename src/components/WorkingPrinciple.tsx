@@ -1,93 +1,69 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import type { LucideIcon } from 'lucide-react';
+import { BlurFade } from '@/components/magicui/blur-fade';
+import { Dna, Sun, Wind } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import Image from 'next/image';
-import { AiOutlineSafety } from 'react-icons/ai';
-import { GiVirus } from 'react-icons/gi';
-import { MdOutlineScience } from 'react-icons/md';
+import { IoWarningOutline } from 'react-icons/io5';
 
-// Константа должна быть объявлена ДО компонента
-const FEATURES = [
-  { icon: 'virus' },
-  { icon: 'science' },
-  { icon: 'safety' },
-];
+type Step = { title: string; text: string };
+
+const ICONS: LucideIcon[] = [Sun, Dna, Wind];
 
 const WorkingPrinciple = () => {
   const t = useTranslations('WorkingPrinciple');
+  const steps = t.raw('steps') as Step[];
 
   return (
-    <section className="py-16">
-      <div className="container">
-        <div
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+    <section className="py-24 md:py-32">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="font-sans text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">
             {t.rich('title', {
               highlight: chunks => <span className="text-sky-600">{chunks}</span>,
             })}
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">{t('subtitle')}</p>
+          <p className="mx-auto mt-5 max-w-xl font-sans text-base leading-relaxed text-slate-500 md:text-lg">
+            {t('subtitle')}
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-4">
-          {/* Левая колонка - Визуал с анимацией */}
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="relative h-[500px] mt-16 flex items-center justify-center rounded-3xl p-8"
-          >
-            <Image
-              src="/assets/images/lamp.png"
-              alt="Кварцевая лампа"
-              width={600}
-              height={600}
-              className="w-full h-auto object-contain"
-              priority
-            />
-          </motion.div>
+        {/* Процесс из 3 шагов со связующей линией */}
+        <div className="relative mx-auto mt-20 max-w-4xl md:mt-24">
+          <div
+            aria-hidden
+            className="absolute left-[16.66%] right-[16.66%] top-12 hidden h-px bg-gradient-to-r from-sky-200 via-violet-200 to-sky-200 md:block"
+          />
 
-          {/* Правая колонка - Особенности */}
-          <div className="space-y-6 lg:space-y-8">
-            {FEATURES.map((feature, idx) => (
-              <motion.div
-                key={feature.icon}
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: idx * 0.1 }}
-                className="flex gap-2 lg:gap-4 items-start p-5 lg:p-6 bg-white rounded-xl shadow-md transition-all"
-              >
-                <div className="p-2 lg:p-3 rounded-lg text-violet-600">
-                  {feature.icon === 'virus' && <GiVirus className="w-6 h-6 lg:w-8 lg:h-8" />}
-                  {feature.icon === 'safety' && <AiOutlineSafety className="w-6 h-6 lg:w-8 lg:h-8" />}
-                  {feature.icon === 'science' && <MdOutlineScience className="w-6 h-6 lg:w-8 lg:h-8" />}
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg lg:text-xl font-semibold mb-1 lg:mb-2 text-gray-800">
-                    {t(`features.${idx}.title`)}
+          <div className="grid gap-16 sm:grid-cols-3 md:gap-10">
+            {steps.map((s, i) => {
+              const Icon = ICONS[i] ?? ICONS[0]!;
+              return (
+                <BlurFade key={s.title} delay={0.1 + i * 0.14} className="flex flex-col items-center text-center">
+                  <div className="flex h-24 w-24 items-center justify-center rounded-full border border-slate-200/80 bg-white shadow-sm">
+                    <Icon className="h-11 w-11 text-sky-600" strokeWidth={1.5} />
+                  </div>
+
+                  <span className="mt-7 font-sans text-sm font-semibold uppercase tracking-[0.25em] text-slate-400">
+                    {`0${i + 1}`}
+                  </span>
+                  <h3 className="mt-2 font-sans text-2xl font-semibold text-slate-900">
+                    {s.title}
                   </h3>
-                  <p className="text-sm lg:text-base text-gray-600 leading-relaxed">
-                    {t(`features.${idx}.description`)}
+                  <p className="mx-auto mt-3 max-w-[20rem] font-sans text-base leading-relaxed text-slate-500">
+                    {s.text}
                   </p>
-                </div>
-              </motion.div>
-            ))}
+                </BlurFade>
+              );
+            })}
           </div>
         </div>
 
-        {/* Предупреждающий баннер */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          className="mt-12 p-6 bg-red-50 border-l-4 border-red-500 rounded-lg"
-        >
-          <div className="flex items-center gap-4">
-            <AiOutlineSafety className="w-8 h-8 text-red-600" />
-            <p className="text-red-800">{t('warning')}</p>
-          </div>
-        </motion.div>
+        {/* Тихое предупреждение */}
+        <p className="mx-auto mt-20 flex max-w-md items-center justify-center gap-2 text-center font-sans text-sm text-slate-400">
+          <IoWarningOutline className="h-4 w-4 shrink-0 text-amber-400" />
+          {t('warning')}
+        </p>
       </div>
     </section>
   );

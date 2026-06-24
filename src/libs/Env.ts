@@ -30,6 +30,9 @@ export const Env = createEnv({
     NEXT_PUBLIC_FIREBASE_APP_ID: z.string().min(1),
 
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().optional(),
+
+    // 2ГИС MapGL — карта филиалов. Ключ с https://dev.2gis.com (бесплатно).
+    NEXT_PUBLIC_2GIS_KEY: z.string().optional(),
   },
 
   runtimeEnv: {
@@ -53,6 +56,7 @@ export const Env = createEnv({
     NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
     NEXT_PUBLIC_FIREBASE_APP_ID: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_2GIS_KEY: process.env.NEXT_PUBLIC_2GIS_KEY,
   },
 
   shared: {

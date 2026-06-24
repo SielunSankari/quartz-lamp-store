@@ -1,5 +1,6 @@
 import Advantages from '@/components/Advantages';
 import Banner from '@/components/Banner';
+import Branches from '@/components/Branches';
 import Scenarios from '@/components/Scenarios';
 import WorkingPrinciple from '@/components/WorkingPrinciple';
 
@@ -31,6 +32,7 @@ export default async function Index(props: IIndexProps) {
       <Banner />
       <Scenarios />
       <WorkingPrinciple />
+      <Branches />
       <Advantages />
     </>
   );
