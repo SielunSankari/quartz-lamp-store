@@ -1,9 +1,8 @@
 import { CitySelector } from '@/components/CitySelector';
-import { AppConfig } from '@/utils/AppConfig';
+import { Footer } from '@/components/Footer';
 import { Truck } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import { FaInstagram, FaTiktok, FaWhatsapp } from 'react-icons/fa';
 
 export const BaseTemplate = (props: {
   leftNav: React.ReactNode;
@@ -58,58 +57,7 @@ export const BaseTemplate = (props: {
       <main className="px-4 sm:px-6 md:px-12 lg:px-24 xl:px-36 2xl:px-48">{props.children}</main>
 
       {/* Футер */}
-      <footer>
-        <div className="bg-sky-600 px-6 sm:px-6 md:px-12 lg:px-24 xl:px-36 2xl:px-48">
-          <div className="flex justify-center items-center space-x-4 text-white py-3">
-            <a
-              href="https://wa.me/your-number"
-              className="hover:text-sky-200"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FaWhatsapp className="w-6 h-6" />
-            </a>
-            <a
-              href="https://tiktok.com/@your-account"
-              className="hover:text-sky-200"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FaTiktok className="w-6 h-6" />
-            </a>
-            <a
-              href="https://instagram.com/your-account"
-              className="hover:text-sky-200"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FaInstagram className="w-6 h-6" />
-            </a>
-          </div>
-
-        </div>
-
-        <div className="bg-neutral-800 py-6 text-center text-sm text-white">
-          <span>
-            © Copyright 2012 –&nbsp;
-            {new Date().getFullYear()}
-            &nbsp;
-            {AppConfig.name}
-          </span>
-          <div>
-            {t.rich('made_with', {
-              author: () => (
-                <a
-                  href="https://github.com/SielunSankari"
-                  className="text-violet-400 hover:border-b hover:border-blue-400"
-                >
-                  Batyrzhan Baitubaev
-                </a>
-              ),
-            })}
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
