@@ -21,6 +21,7 @@
     "commit": "cz",
     "seed": "tsx scripts/seed-products.ts",
     "seed:reviews": "tsx scripts/seed-reviews.ts",
+    "import:products": "tsx scripts/import-products.ts",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
     "storybook:serve": "http-server storybook-static --port 6006 --silent",

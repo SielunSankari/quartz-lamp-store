@@ -7,12 +7,33 @@ import { collection, doc, getDoc, getDocs, orderBy, query } from 'firebase/fires
 
 // Превращаем «сырой» документ Firestore в типизированный Product с защитой от мусора.
 function toProduct(id: string, data: Record<string, unknown>): Product {
+  const images = Array.isArray(data.images) ? data.images.map(String) : undefined;
+  const specs = Array.isArray(data.specs)
+    ? data.specs.map((s: Record<string, unknown>) => ({
+        label: String(s?.label ?? ''),
+        value: String(s?.value ?? ''),
+      }))
+    : undefined;
+  const d = data.details as Record<string, unknown> | undefined;
+  const details = d
+    ? {
+        summary: String(d.summary ?? ''),
+        advantages: Array.isArray(d.advantages) ? d.advantages.map(String) : [],
+        usage: Array.isArray(d.usage) ? d.usage.map(String) : [],
+        safety: Array.isArray(d.safety) ? d.safety.map(String) : [],
+      }
+    : undefined;
+
   return {
     id,
     name: String(data.name ?? ''),
     description: String(data.description ?? ''),
     price: Number(data.price ?? 0),
     imageUrl: String(data.imageUrl ?? ''),
+    ...(images ? { images } : {}),
+    ...(data.alt ? { alt: String(data.alt) } : {}),
+    ...(specs ? { specs } : {}),
+    ...(details ? { details } : {}),
   };
 }
 
