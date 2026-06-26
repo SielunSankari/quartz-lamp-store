@@ -33,12 +33,16 @@ export function CityProvider({ children }: { children: React.ReactNode }) {
     if (!user) {
       return;
     }
-    getUserCity(user.uid).then((c) => {
-      if (c) {
-        setCityState(c);
-        localStorage.setItem(STORAGE_KEY, c);
-      }
-    });
+    getUserCity(user.uid)
+      .then((c) => {
+        if (c) {
+          setCityState(c);
+          localStorage.setItem(STORAGE_KEY, c);
+        }
+      })
+      .catch(() => {
+        // нет доступа / правила не опубликованы — город остаётся из localStorage
+      });
   }, [user]);
 
   const value = useMemo<CityContextValue>(() => ({

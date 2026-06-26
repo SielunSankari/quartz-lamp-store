@@ -35,7 +35,11 @@ const reviewRef = (uid: string) => doc(db, 'reviews', uid);
 // Подписка на отзывы: новые сверху (createdAt DESC), с лимитом.
 export function subscribeReviews(cb: (reviews: Review[]) => void, max = 30) {
   const q = query(collection(db, 'reviews'), orderBy('createdAt', 'desc'), limit(max));
-  return onSnapshot(q, snap => cb(snap.docs.map(d => d.data() as Review)));
+  return onSnapshot(
+    q,
+    snap => cb(snap.docs.map(d => d.data() as Review)),
+    () => cb([]), // нет доступа / правила не опубликованы — пусто, без падения
+  );
 }
 
 export async function getMyReview(uid: string): Promise<Review | null> {

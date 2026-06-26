@@ -2,9 +2,11 @@ import { CartFlyLayer } from '@/components/CartFlyLayer';
 import { CitySelector } from '@/components/CitySelector';
 import { ContactWidget } from '@/components/ContactWidget';
 import { Footer } from '@/components/Footer';
+import { MobileNav } from '@/components/MobileNav';
 import { Truck } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export const BaseTemplate = (props: {
   leftNav: React.ReactNode;
@@ -29,20 +31,22 @@ export const BaseTemplate = (props: {
       {/* Полноширинная sticky-шапка: почти белая (лёгкое стекло), чтобы тёплый
           фон под ней не «пачкал» шапку. */}
       <header className="sticky top-0 z-50 w-full border-b border-slate-200/70 bg-white/90 shadow-[0_8px_24px_-18px_rgba(15,23,42,0.18)] backdrop-blur-xl">
-        <div className="mx-auto flex w-full max-w-screen-xl flex-wrap items-center justify-between gap-x-8 gap-y-3 px-4 py-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex w-full max-w-screen-xl items-center justify-between gap-x-8 px-4 py-3.5 sm:px-6 lg:px-8">
           {/* Лого */}
-          <Image
-            src="/Logo.svg"
-            alt="baimed"
-            width={48}
-            height={48}
-            className="mt-1.5 h-11 w-auto shrink-0 self-start"
-          />
+          <Link href="/" aria-label="BAIMED" className="shrink-0">
+            <Image
+              src="/Logo.svg"
+              alt="baimed"
+              width={48}
+              height={48}
+              className="h-10 w-auto"
+            />
+          </Link>
 
-          {/* Навигация + действия (справа) */}
-          <div className="flex flex-1 flex-wrap items-center justify-end gap-x-7 gap-y-2">
+          {/* Десктоп: обычное меню */}
+          <div className="hidden flex-1 items-center justify-end gap-x-7 lg:flex">
             <nav>
-              <ul className="flex flex-wrap items-center gap-x-6 gap-y-1 text-base font-medium text-gray-800">
+              <ul className="flex items-center gap-x-6 text-base font-medium text-gray-800">
                 {props.leftNav}
               </ul>
             </nav>
@@ -52,6 +56,11 @@ export const BaseTemplate = (props: {
                 {props.rightNav}
               </ul>
             </nav>
+          </div>
+
+          {/* Мобайл/планшет: бургер-меню */}
+          <div className="lg:hidden">
+            <MobileNav />
           </div>
         </div>
       </header>

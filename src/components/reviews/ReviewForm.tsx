@@ -37,17 +37,23 @@ export function ReviewForm() {
       return;
     }
     let active = true;
-    getMyReview(user.uid).then((r) => {
-      if (!active) {
-        return;
-      }
-      setMyReview(r);
-      setChecked(true);
-      if (r) {
-        setRating(r.rating);
-        setText(r.text);
-      }
-    });
+    getMyReview(user.uid)
+      .then((r) => {
+        if (!active) {
+          return;
+        }
+        setMyReview(r);
+        setChecked(true);
+        if (r) {
+          setRating(r.rating);
+          setText(r.text);
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setChecked(true); // нет доступа — показываем форму как для нового отзыва
+        }
+      });
     return () => {
       active = false;
     };

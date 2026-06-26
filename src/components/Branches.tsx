@@ -130,8 +130,9 @@ export default function Branches() {
           })}
         </div>
 
-        {/* Карта на всю ширину блока */}
-        <div className="mt-8 h-[460px] w-full overflow-hidden rounded-[2rem] border border-slate-200/70 shadow-sm md:h-[560px]">
+        {/* Карта на всю ширину блока. isolate — чтобы z-index Leaflet (зум,
+            попапы до 1000) не перекрывали sticky-шапку (z-50). */}
+        <div className="relative isolate mt-8 h-[460px] w-full overflow-hidden rounded-[2rem] border border-slate-200/70 shadow-sm md:h-[560px]">
           <div ref={mapEl} className="h-full w-full" />
         </div>
       </div>
