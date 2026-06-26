@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import 'leaflet/dist/leaflet.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -233,6 +234,51 @@
   .animate-marquee {
     animation: none;
   }
+}
+
+/* ───────── Leaflet: маркеры BAIMED и попапы в стиле Apple ───────── */
+.baimed-pin {
+  filter: drop-shadow(0 5px 7px rgba(15, 23, 42, 0.28));
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 16px;
+  box-shadow: 0 16px 38px -12px rgba(15, 23, 42, 0.28);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+.leaflet-popup-content {
+  margin: 14px 16px;
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+.leaflet-popup-tip {
+  box-shadow: 0 16px 38px -12px rgba(15, 23, 42, 0.28);
+}
+.bm-popup-city {
+  font-weight: 600;
+  font-size: 15px;
+  color: #0f172a;
+}
+.bm-popup-addr {
+  margin-top: 2px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #64748b;
+}
+.bm-popup-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6d5df6;
+}
+.bm-popup-link:hover {
+  text-decoration: underline;
+}
+/* Скруглённые элементы управления зумом */
+.leaflet-bar {
+  border: none !important;
+  box-shadow: 0 6px 18px -6px rgba(15, 23, 42, 0.25) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
 }
 
 .loader {

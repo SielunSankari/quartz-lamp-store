@@ -1,4 +1,6 @@
+import { CartFlyLayer } from '@/components/CartFlyLayer';
 import { CitySelector } from '@/components/CitySelector';
+import { ContactWidget } from '@/components/ContactWidget';
 import { Footer } from '@/components/Footer';
 import { Truck } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -58,6 +60,12 @@ export const BaseTemplate = (props: {
 
       {/* Футер */}
       <Footer />
+
+      {/* Слой анимации «товар летит в корзину» */}
+      <CartFlyLayer />
+
+      {/* Плавающий виджет связи */}
+      <ContactWidget />
     </div>
   );
 };

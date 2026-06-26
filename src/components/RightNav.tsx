@@ -9,10 +9,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/providers/AuthProvider';
+import { useCartFx } from '@/stores/cartFx';
+import { motion } from 'framer-motion';
 import { ChevronDown, LogOut, ShoppingBag } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { LocaleSwitcher } from './LocaleSwitcher';
 
 // Приятные приглушённые «эпловские» цвета аватара (белый текст читается).
@@ -47,6 +50,18 @@ export const RightNav = () => {
   const firstName = name.split(' ')[0] ?? name;
   const initial = firstName.charAt(0).toUpperCase();
 
+  // Лёгкий «pop» профиль-чипа при посадке товара (он же — цель полёта).
+  const landSignal = useCartFx(s => s.landSignal);
+  const [bump, setBump] = useState(false);
+  useEffect(() => {
+    if (landSignal === 0) {
+      return undefined;
+    }
+    setBump(true);
+    const id = setTimeout(() => setBump(false), 450);
+    return () => clearTimeout(id);
+  }, [landSignal]);
+
   const handleLogout = async () => {
     await logout();
     router.push('/');
@@ -63,9 +78,12 @@ export const RightNav = () => {
           ? (
               <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
-                  <button
+                  <motion.button
                     type="button"
-                    className="group flex items-center gap-2 rounded-full border border-slate-200/70 bg-white/70 py-1 pl-1 pr-3 shadow-sm backdrop-blur-sm transition-all duration-200 hover:bg-white hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/50"
+                    id="cart-fly-target"
+                    animate={bump ? { scale: [1, 1.12, 0.96, 1] } : { scale: 1 }}
+                    transition={{ duration: 0.45, ease: 'easeOut' }}
+                    className="group flex items-center gap-2 rounded-full border border-slate-200/70 bg-white/70 py-1 pl-1 pr-3 shadow-sm backdrop-blur-sm transition-colors duration-200 hover:bg-white hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/50"
                   >
                     <span
                       className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-white"
@@ -77,7 +95,7 @@ export const RightNav = () => {
                       {firstName}
                     </span>
                     <ChevronDown className="h-4 w-4 text-slate-400 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-                  </button>
+                  </motion.button>
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent align="end">

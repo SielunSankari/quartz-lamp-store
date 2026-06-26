@@ -19,6 +19,7 @@ export type Product = {
   imageUrl: string; // главное фото
   images?: string[]; // галерея (первое = главное)
   alt?: string; // alt главного фото
+  kaspiUrl?: string; // ссылка на товар в Kaspi Магазине
   specs?: ProductSpec[]; // технические характеристики
   details?: ProductDetails; // структурированное описание
 };

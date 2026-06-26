@@ -55,12 +55,30 @@ const Banner = () => {
             {t('subtitle')}
           </p>
 
-          {/* Стеклянный CTA */}
-          <Link href="/products/" className="mt-8 inline-flex">
-            <span className="cta-glass rounded-full px-9 py-4 text-base font-medium tracking-wide">
-              {t('cta')}
-            </span>
-          </Link>
+          {/* CTA: каталог + Kaspi */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:justify-start">
+            <Link href="/products/" className="inline-flex">
+              <span className="cta-glass rounded-full px-9 py-4 text-base font-medium tracking-wide">
+                {t('cta')}
+              </span>
+            </Link>
+
+            <a
+              href="https://kaspi.kz/shop/search/?q=%3AallMerchants%3A2401006"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 rounded-full border border-slate-200/80 bg-white/70 px-7 py-4 text-base font-medium tracking-wide text-slate-800 shadow-sm backdrop-blur transition-all duration-200 hover:bg-white hover:shadow-md"
+            >
+              <Image
+                src="/assets/images/kaspi-logo.png"
+                alt="Kaspi"
+                width={22}
+                height={22}
+                className="shrink-0"
+              />
+              {t('cta_kaspi')}
+            </a>
+          </div>
 
           <p className="mt-8 font-sans text-xs tracking-wide text-slate-500 md:text-sm">
             {t('trust')}

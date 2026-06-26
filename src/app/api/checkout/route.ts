@@ -1,6 +1,6 @@
 import type { CartItem, Product } from '@/types/shop';
 import { adminAuth, adminDb } from '@/libs/firebaseAdmin';
-import { stripe } from '@/libs/stripe';
+import { getStripe } from '@/libs/stripe';
 import { NextResponse } from 'next/server';
 
 // POST /api/checkout
@@ -67,7 +67,7 @@ export async function POST(request: Request) {
 
     // --- Stripe Checkout Session ---
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       mode: 'payment',
       // KZT не входит в zero-decimal валюты Stripe → сумма в тиынах (× 100).
       line_items: verifiedItems.map(item => ({

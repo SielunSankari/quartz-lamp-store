@@ -2,7 +2,6 @@
 
 import type { Product } from '@/types/shop';
 import { AddToCartButton } from '@/components/AddToCartButton';
-import { Button } from '@/components/ui/button';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,56 +10,81 @@ export default function Products({ products }: { products: Product[] }) {
   const t = useTranslations('Products');
 
   if (products.length === 0) {
-    return (
-      <p className="text-center text-gray-500 py-12">{t('empty')}</p>
-    );
+    return <p className="py-12 text-center text-slate-500">{t('empty')}</p>;
   }
 
   return (
-    <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-      {products.map(product => (
-        <article
-          key={product.id}
-          className="bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition-shadow flex flex-col h-full"
-        >
-          <div className="mb-4">
-            <Image
-              src={product.imageUrl}
-              alt={product.name}
-              width={400}
-              height={200}
-              className="w-full h-48 object-cover rounded-md"
-            />
-          </div>
+    // Full-bleed: гасим большой боковой отступ <main>, чтобы поместилось 4 в ряд
+    <div className="-mx-4 sm:-mx-6 md:-mx-12 lg:-mx-24 xl:-mx-36 2xl:-mx-48">
+      <div className="mx-auto max-w-[1320px] px-6 sm:px-8">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
+          {products.map(product => (
+            <article
+              key={product.id}
+              className="group flex flex-col overflow-hidden rounded-[1.5rem] border border-white/60 bg-white/60 shadow-[0_8px_28px_-16px_rgba(15,23,42,0.16)] backdrop-blur-xl transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_20px_40px_-20px_rgba(15,23,42,0.25)]"
+            >
+              {/* Фото — белый фон, одинаковая высота, не обрезается */}
+              <Link href={`/products/${product.id}`} className="relative block h-52 w-full bg-white">
+                <Image
+                  data-fly-image
+                  src={product.imageUrl}
+                  alt={product.alt ?? product.name}
+                  fill
+                  className="object-contain p-6 transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                  sizes="(max-width: 640px) 100vw, 280px"
+                />
+              </Link>
 
-          <div className="flex flex-col flex-grow">
-            <h2 className="text-xl font-semibold mb-2 line-clamp-2 h-14 overflow-hidden">
-              {product.name}
-            </h2>
-
-            <p className="text-gray-600 line-clamp-3 mb-4 flex-grow">
-              {product.description}
-            </p>
-
-            <div className="flex justify-between items-center mt-auto">
-              <p className="text-gray-900 font-bold text-xl mr-4">
-                {product.price.toLocaleString('ru-RU')}
-                {' '}
-                ₸
-              </p>
-
-              <div className="flex gap-3">
+              {/* Тело */}
+              <div className="flex flex-1 flex-col p-5">
                 <Link href={`/products/${product.id}`}>
-                  <Button variant="outline" className="h-10 px-4 py-2 text-base">
-                    {t('open')}
-                  </Button>
+                  <h2 className="line-clamp-2 font-sans text-[15px] font-semibold leading-snug tracking-tight text-slate-900">
+                    {product.name}
+                  </h2>
                 </Link>
-                <AddToCartButton product={product} iconOnly />
+                <p className="mt-1.5 line-clamp-2 font-sans text-sm leading-relaxed text-slate-500">
+                  {product.description}
+                </p>
+
+                <p className="mt-3 font-sans text-xl font-bold tracking-tight text-slate-900">
+                  {product.price.toLocaleString('ru-RU')}
+                  {' '}
+                  ₸
+                </p>
+
+                {/* Действия */}
+                <div className="mt-4 flex flex-col gap-2">
+                  <div className="grid grid-cols-2 gap-2">
+                    <Link
+                      href={`/products/${product.id}`}
+                      className="flex items-center justify-center rounded-full border border-slate-200/80 bg-white/50 px-3 py-2 font-sans text-[13px] font-medium text-slate-700 backdrop-blur-md transition-all duration-200 hover:bg-white hover:shadow-sm"
+                    >
+                      {t('details')}
+                    </Link>
+                    {product.kaspiUrl
+                      ? (
+                          <a
+                            href={product.kaspiUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center rounded-full bg-[#F14635] px-3 py-2 font-sans text-[13px] font-medium text-white transition-all duration-200 hover:bg-[#d83a2c] hover:shadow-sm"
+                          >
+                            {t('kaspi')}
+                          </a>
+                        )
+                      : null}
+                  </div>
+
+                  <AddToCartButton
+                    product={product}
+                    className="h-11 w-full rounded-full bg-sky-600 font-sans text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-sky-700 hover:shadow-md"
+                  />
+                </div>
               </div>
-            </div>
-          </div>
-        </article>
-      ))}
+            </article>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

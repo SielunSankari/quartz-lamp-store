@@ -1,6 +1,6 @@
 import type Stripe from 'stripe';
 import { adminDb } from '@/libs/firebaseAdmin';
-import { stripe } from '@/libs/stripe';
+import { getStripe } from '@/libs/stripe';
 import { NextResponse } from 'next/server';
 
 // POST /api/webhook
@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 
   let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+    event = getStripe().webhooks.constructEvent(body, signature, webhookSecret);
   } catch (err) {
     console.error('Invalid Stripe signature:', err);
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });

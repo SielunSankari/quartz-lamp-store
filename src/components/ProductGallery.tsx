@@ -12,6 +12,7 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
     <div>
       <div className="relative aspect-square overflow-hidden rounded-2xl border border-slate-200 bg-white">
         <Image
+          data-fly-image
           src={main}
           alt={alt}
           fill

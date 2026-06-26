@@ -59,8 +59,23 @@ export default async function ProductPage({ params }: ProductPageProps) {
               {' '}
               ₸
             </p>
-            <div className="mt-6">
-              <AddToCartButton product={product} className="w-full md:w-auto" />
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <AddToCartButton
+                product={product}
+                className="h-12 rounded-full bg-sky-600 px-8 font-sans text-base font-medium text-white shadow-sm transition-all hover:bg-sky-700 hover:shadow-md"
+              />
+              {product.kaspiUrl
+                ? (
+                    <a
+                      href={product.kaspiUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex h-12 items-center justify-center rounded-full bg-[#F14635] px-8 font-sans text-base font-medium text-white transition-all hover:bg-[#d83a2c] hover:shadow-md"
+                    >
+                      Kaspi Магазин
+                    </a>
+                  )
+                : null}
             </div>
           </div>
 

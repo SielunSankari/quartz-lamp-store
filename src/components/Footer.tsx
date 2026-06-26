@@ -12,8 +12,8 @@ type LinkItem = { label: string; href: string };
 const SOCIALS = [
   { Icon: FaInstagram, href: 'https://instagram.com/baimed', label: 'Instagram' },
   { Icon: FaTiktok, href: 'https://tiktok.com/@baimed', label: 'TikTok' },
-  { Icon: FaTelegramPlane, href: 'https://t.me/baimed', label: 'Telegram' },
-  { Icon: FaWhatsapp, href: 'https://wa.me/77000000000', label: 'WhatsApp' },
+  { Icon: FaTelegramPlane, href: 'https://t.me/ssssielun', label: 'Telegram' },
+  { Icon: FaWhatsapp, href: 'https://wa.me/77472576393', label: 'WhatsApp' },
 ];
 
 // Колонка: на десктопе раскрыта всегда, на мобиле — аккордеон с плавным раскрытием.
