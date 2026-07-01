@@ -20,6 +20,7 @@ export type Product = {
   images?: string[]; // галерея (первое = главное)
   alt?: string; // alt главного фото
   kaspiUrl?: string; // ссылка на товар в Kaspi Магазине
+  halykUrl?: string; // ссылка на товар в Halyk Market (есть не у всех)
   specs?: ProductSpec[]; // технические характеристики
   details?: ProductDetails; // структурированное описание
 };

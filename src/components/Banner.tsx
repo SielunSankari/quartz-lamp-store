@@ -58,7 +58,7 @@ const Banner = () => {
           {/* CTA: каталог + Kaspi (на мобиле в столбик во всю ширину) */}
           <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center md:justify-start">
             <Link href="/products/" className="w-full sm:w-auto">
-              <span className="cta-glass block w-full rounded-full px-7 py-3.5 text-center text-base font-medium tracking-wide sm:w-auto sm:px-9 sm:py-4">
+              <span className="block w-full rounded-full bg-gradient-to-r from-sky-600 to-violet-500 px-7 py-3.5 text-center text-base font-medium tracking-wide text-white shadow-sm transition-all duration-200 hover:from-sky-700 hover:to-violet-600 hover:shadow-md sm:w-auto sm:px-9 sm:py-4">
                 {t('cta')}
               </span>
             </Link>
@@ -77,6 +77,22 @@ const Banner = () => {
                 className="shrink-0"
               />
               {t('cta_kaspi')}
+            </a>
+
+            <a
+              href="https://halykmarket.kz/astana/category/kvarcevye-lampy-i-obluchateli?f=merchantName%3ABAIMED"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex w-full items-center justify-center gap-2.5 rounded-full border border-slate-200/80 bg-white/70 px-5 py-3.5 text-base font-medium tracking-wide text-slate-800 shadow-sm backdrop-blur transition-all duration-200 hover:bg-white hover:shadow-md sm:w-auto sm:px-7 sm:py-4"
+            >
+              <Image
+                src="/assets/images/halyk-logo.png"
+                alt="Halyk Market"
+                width={22}
+                height={22}
+                className="shrink-0 rounded-[5px]"
+              />
+              {t('cta_halyk')}
             </a>
           </div>
 

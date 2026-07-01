@@ -1,5 +1,6 @@
 import type { Product } from '@/types/shop';
 import { AddToCartButton } from '@/components/AddToCartButton';
+import { MarketButton } from '@/components/MarketButton';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -55,25 +56,30 @@ export default function Products({ products }: { products: Product[] }) {
 
                 {/* Действия */}
                 <div className="mt-3 flex flex-col gap-2 sm:mt-4">
+                  <Link
+                    href={`/products/${product.id}`}
+                    className="flex items-center justify-center rounded-full border border-slate-200/80 bg-white/50 px-3 py-2 font-sans text-[13px] font-medium text-slate-700 backdrop-blur-md transition-all duration-200 hover:bg-white hover:shadow-sm"
+                  >
+                    {t('details')}
+                  </Link>
+
+                  {/* Маркетплейсы: активная цветная кнопка при наличии ссылки,
+                      иначе «заблокированный» серый вид. */}
                   <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                    <Link
-                      href={`/products/${product.id}`}
-                      className="flex items-center justify-center rounded-full border border-slate-200/80 bg-white/50 px-3 py-2 font-sans text-[13px] font-medium text-slate-700 backdrop-blur-md transition-all duration-200 hover:bg-white hover:shadow-sm"
-                    >
-                      {t('details')}
-                    </Link>
-                    {product.kaspiUrl
-                      ? (
-                          <a
-                            href={product.kaspiUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-center rounded-full bg-[#F14635] px-3 py-2 font-sans text-[13px] font-medium text-white transition-all duration-200 hover:bg-[#d83a2c] hover:shadow-sm"
-                          >
-                            {t('kaspi')}
-                          </a>
-                        )
-                      : null}
+                    <MarketButton
+                      url={product.kaspiUrl}
+                      label={t('kaspi')}
+                      unavailableLabel={t('unavailable')}
+                      activeClass="bg-[#F14635] hover:bg-[#d83a2c]"
+                      className="px-3 py-2 text-[13px]"
+                    />
+                    <MarketButton
+                      url={product.halykUrl}
+                      label={t('halyk')}
+                      unavailableLabel={t('unavailable')}
+                      activeClass="bg-[#00A651] hover:bg-[#008f46]"
+                      className="px-3 py-2 text-[13px]"
+                    />
                   </div>
 
                   <AddToCartButton

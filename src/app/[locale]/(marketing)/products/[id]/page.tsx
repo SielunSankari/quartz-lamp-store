@@ -1,5 +1,6 @@
 import { AddToCartButton } from '@/components/AddToCartButton';
 import { JsonLd } from '@/components/JsonLd';
+import { MarketButton } from '@/components/MarketButton';
 import { ProductGallery } from '@/components/ProductGallery';
 import { routing } from '@/libs/i18nNavigation';
 import { getProduct, getProducts } from '@/libs/products';
@@ -118,23 +119,28 @@ export default async function ProductPage({ params }: ProductPageProps) {
               {' '}
               ₸
             </p>
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-6 flex flex-col gap-3">
               <AddToCartButton
                 product={product}
                 className="h-12 rounded-full bg-gradient-to-r from-sky-600 to-violet-500 px-8 font-sans text-base font-medium text-white shadow-sm transition-all hover:from-sky-700 hover:to-violet-600 hover:shadow-md"
               />
-              {product.kaspiUrl
-                ? (
-                    <a
-                      href={product.kaspiUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex h-12 items-center justify-center rounded-full bg-[#F14635] px-8 font-sans text-base font-medium text-white transition-all hover:bg-[#d83a2c] hover:shadow-md"
-                    >
-                      {t('kaspi')}
-                    </a>
-                  )
-                : null}
+              {/* Маркетплейсы: цветная кнопка при наличии ссылки, иначе «заблокировано». */}
+              <div className="grid grid-cols-2 gap-3">
+                <MarketButton
+                  url={product.kaspiUrl}
+                  label={t('kaspi')}
+                  unavailableLabel={t('unavailable')}
+                  activeClass="bg-[#F14635] hover:bg-[#d83a2c]"
+                  className="h-12 px-4 text-base"
+                />
+                <MarketButton
+                  url={product.halykUrl}
+                  label={t('halyk')}
+                  unavailableLabel={t('unavailable')}
+                  activeClass="bg-[#00A651] hover:bg-[#008f46]"
+                  className="h-12 px-4 text-base"
+                />
+              </div>
             </div>
           </div>
 

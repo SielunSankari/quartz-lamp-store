@@ -34,6 +34,7 @@ function toProduct(id: string, data: Record<string, unknown>): Product {
     ...(images ? { images } : {}),
     ...(data.alt ? { alt: String(data.alt) } : {}),
     ...(data.kaspiUrl ? { kaspiUrl: String(data.kaspiUrl) } : {}),
+    ...(data.halykUrl ? { halykUrl: String(data.halykUrl) } : {}),
     ...(specs ? { specs } : {}),
     ...(details ? { details } : {}),
   };
