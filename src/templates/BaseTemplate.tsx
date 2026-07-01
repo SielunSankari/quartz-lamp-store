@@ -2,6 +2,7 @@ import { CartFlyLayer } from '@/components/CartFlyLayer';
 import { CitySelector } from '@/components/CitySelector';
 import { ContactWidget } from '@/components/ContactWidget';
 import { Footer } from '@/components/Footer';
+import { LocaleSwitcher } from '@/components/LocaleSwitcher';
 import { MobileNav } from '@/components/MobileNav';
 import { Truck } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -21,10 +22,16 @@ export const BaseTemplate = (props: {
       <div className="w-full border-b border-slate-200/60 bg-paper">
         <div className="mx-auto flex w-full max-w-screen-xl items-center justify-between px-4 py-1.5 sm:px-6 lg:px-8">
           <CitySelector />
-          <span className="hidden items-center gap-1.5 font-sans text-xs text-slate-500 sm:flex">
-            <Truck className="h-3.5 w-3.5 text-sky-600" strokeWidth={1.8} />
-            {t('delivery')}
-          </span>
+          <div className="flex items-center gap-1">
+            <span className="hidden items-center gap-1.5 font-sans text-xs text-slate-500 sm:flex">
+              <Truck className="h-3.5 w-3.5 text-sky-600" strokeWidth={1.8} />
+              {t('delivery')}
+            </span>
+            {/* Переключатель языка для мобильных/планшетов (на десктопе он в RightNav). */}
+            <div className="lg:hidden">
+              <LocaleSwitcher />
+            </div>
+          </div>
         </div>
       </div>
 

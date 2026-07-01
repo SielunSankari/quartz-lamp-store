@@ -130,7 +130,7 @@ export default async function RootLayout(props: {
                     )}
                     rightNav={<RightNav />}
                   >
-                    <div className="py-5 text-xl [&_p]:my-6">{props.children}</div>
+                    <div className="py-3 text-base sm:py-5 sm:text-xl [&_p]:my-4 sm:[&_p]:my-6">{props.children}</div>
                   </BaseTemplate>
                 </CartProvider>
               </CityProvider>

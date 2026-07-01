@@ -29,7 +29,7 @@ export default async function About(props: IAboutProps) {
   const usage = t.raw('usage') as string[];
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 md:py-16">
+    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12 md:py-16">
       {/* Заголовок + лид */}
       <div className="mx-auto max-w-2xl text-center">
         <h1 className="font-sans text-4xl font-semibold tracking-tight text-slate-900 md:text-5xl">
@@ -41,7 +41,7 @@ export default async function About(props: IAboutProps) {
       </div>
 
       {/* Цифры */}
-      <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
+      <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-10 sm:mt-14 md:grid-cols-4">
         {stats.map(s => (
           <div key={s.label} className="text-center">
             <div className="font-sans text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
@@ -55,7 +55,7 @@ export default async function About(props: IAboutProps) {
       </div>
 
       {/* Чем занимаемся */}
-      <section className="mt-16 rounded-[2rem] border border-slate-200/60 bg-white p-8 md:p-12">
+      <section className="mt-10 rounded-[2rem] border border-slate-200/60 bg-white p-8 sm:mt-16 md:p-12">
         <h2 className="font-sans text-2xl font-semibold tracking-tight text-slate-900">
           {t('what_title')}
         </h2>
@@ -101,7 +101,7 @@ export default async function About(props: IAboutProps) {
       </section>
 
       {/* Сертификаты */}
-      <section className="mt-16 flex flex-col items-center gap-8 rounded-[2rem] border border-slate-200/60 bg-slate-50/70 p-8 text-center md:flex-row md:gap-10 md:p-12 md:text-left">
+      <section className="mt-10 flex flex-col items-center gap-8 rounded-[2rem] border border-slate-200/60 bg-slate-50/70 p-8 text-center sm:mt-16 md:flex-row md:gap-10 md:p-12 md:text-left">
         <div className="flex shrink-0 items-center justify-center gap-4">
           <CertificateViewer src="/assets/images/Certificate.jpg" alt={t('certificate_alt')} />
           <CertificateViewer src="/assets/images/Attestat-UF-lampyi.png" alt={t('attestat_alt')} />

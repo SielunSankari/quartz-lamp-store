@@ -96,7 +96,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   };
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
       <JsonLd data={productLd} />
       <JsonLd data={breadcrumbLd} />
       {/* Верх: галерея + покупка */}
@@ -156,7 +156,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       {/* Где используется */}
       {details?.usage?.length
         ? (
-            <section className="mt-16">
+            <section className="mt-10 sm:mt-16">
               <h2 className="font-sans text-xl font-semibold text-slate-900 md:text-2xl">{t('usage_title')}</h2>
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
                 {details.usage.map(u => (
@@ -173,7 +173,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       {/* Технические характеристики */}
       {product.specs?.length
         ? (
-            <section className="mt-16">
+            <section className="mt-10 sm:mt-16">
               <h2 className="font-sans text-xl font-semibold text-slate-900 md:text-2xl">{t('specs_title')}</h2>
               <dl className="mt-5 overflow-hidden rounded-2xl border border-slate-200/70">
                 {product.specs.map((s, i) => (
@@ -193,7 +193,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       {/* Рекомендации по безопасности */}
       {details?.safety?.length
         ? (
-            <section className="mt-16">
+            <section className="mt-10 sm:mt-16">
               <h2 className="flex items-center gap-2.5 font-sans text-xl font-semibold text-slate-900 md:text-2xl">
                 <ShieldAlert className="h-6 w-6 text-amber-500" strokeWidth={1.8} />
                 {t('safety_title')}

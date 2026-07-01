@@ -32,7 +32,7 @@ export default async function Contacts(props: IContactProps) {
   ];
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 md:py-16">
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12 md:py-16">
       {/* Заголовок */}
       <div className="mx-auto max-w-2xl text-center">
         <h1 className="font-sans text-4xl font-semibold tracking-tight text-slate-900 md:text-5xl">
