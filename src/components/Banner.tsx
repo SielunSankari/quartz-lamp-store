@@ -11,14 +11,14 @@ const Banner = () => {
   const qualities = t.raw('qualities') as string[];
 
   return (
-    <section className="relative mb-16 overflow-hidden rounded-[2.5rem] bg-white md:mb-24">
+    <section className="relative mb-10 overflow-hidden rounded-[2rem] bg-white sm:mb-16 sm:rounded-[2.5rem] md:mb-24">
       {/* Мягкие холодные акценты по углам (свечение самой лампы — Ripple ниже) */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <div className="absolute left-[18%] top-[14%] h-64 w-64 rounded-full bg-cyan-200/30 blur-3xl" />
         <div className="absolute bottom-[4%] right-[12%] h-64 w-64 rounded-full bg-violet-200/30 blur-3xl" />
       </div>
 
-      <div className="relative mx-auto grid max-w-5xl grid-cols-1 items-center gap-8 px-4 py-12 md:grid-cols-[45fr_55fr] md:gap-6 md:py-16">
+      <div className="relative mx-auto grid max-w-5xl grid-cols-1 items-center gap-5 px-4 py-8 sm:gap-8 sm:py-12 md:grid-cols-[45fr_55fr] md:gap-6 md:py-16">
         {/* ЛЕВО — парящая лампа; за ней пульсирующее УФ-свечение (Magic UI Ripple) */}
         <div className="relative flex justify-center md:justify-center md:pl-12">
           <Ripple className="md:left-6" />
@@ -29,7 +29,7 @@ const Banner = () => {
             height={1525}
             priority
             sizes="(max-width: 768px) 60vw, 30vw"
-            className="float-slow relative z-10 h-[340px] w-auto object-contain drop-shadow-[0_30px_50px_rgba(56,128,255,0.22)] md:h-[540px]"
+            className="float-slow relative z-10 h-[200px] w-auto object-contain drop-shadow-[0_30px_50px_rgba(56,128,255,0.22)] sm:h-[300px] md:h-[540px]"
           />
         </div>
 
@@ -39,26 +39,26 @@ const Banner = () => {
             {t('eyebrow')}
           </p>
 
-          <h1 className="mt-2 font-sans text-4xl font-semibold leading-[1.05] tracking-tight text-slate-900 sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="mt-2 font-sans text-3xl font-semibold leading-[1.05] tracking-tight text-slate-900 sm:text-5xl md:text-6xl lg:text-7xl">
             {t('title')}
           </h1>
 
           {/* Меняющиеся важные качества лампы */}
-          <div className="mt-4 h-9 md:h-10">
+          <div className="mt-3 h-8 sm:mt-4 sm:h-9 md:h-10">
             <RotatingText
               items={qualities}
-              className="font-sans text-2xl font-medium tracking-tight text-sky-600 md:text-3xl"
+              className="font-sans text-xl font-medium tracking-tight text-sky-600 sm:text-2xl md:text-3xl"
             />
           </div>
 
-          <p className="mx-auto mt-6 max-w-md font-sans text-base leading-relaxed text-slate-600 md:mx-0 md:text-lg">
+          <p className="mx-auto mt-4 max-w-md font-sans text-base leading-relaxed text-slate-600 sm:mt-6 md:mx-0 md:text-lg">
             {t('subtitle')}
           </p>
 
-          {/* CTA: каталог + Kaspi */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:justify-start">
-            <Link href="/products/" className="inline-flex">
-              <span className="cta-glass rounded-full px-9 py-4 text-base font-medium tracking-wide">
+          {/* CTA: каталог + Kaspi (на мобиле в столбик во всю ширину) */}
+          <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center md:justify-start">
+            <Link href="/products/" className="w-full sm:w-auto">
+              <span className="cta-glass block w-full rounded-full px-7 py-3.5 text-center text-base font-medium tracking-wide sm:w-auto sm:px-9 sm:py-4">
                 {t('cta')}
               </span>
             </Link>
@@ -67,7 +67,7 @@ const Banner = () => {
               href="https://kaspi.kz/shop/search/?q=%3AallMerchants%3A2401006"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 rounded-full border border-slate-200/80 bg-white/70 px-7 py-4 text-base font-medium tracking-wide text-slate-800 shadow-sm backdrop-blur transition-all duration-200 hover:bg-white hover:shadow-md"
+              className="flex w-full items-center justify-center gap-2.5 rounded-full border border-slate-200/80 bg-white/70 px-5 py-3.5 text-base font-medium tracking-wide text-slate-800 shadow-sm backdrop-blur transition-all duration-200 hover:bg-white hover:shadow-md sm:w-auto sm:px-7 sm:py-4"
             >
               <Image
                 src="/assets/images/kaspi-logo.png"
@@ -80,7 +80,7 @@ const Banner = () => {
             </a>
           </div>
 
-          <p className="mt-8 font-sans text-xs tracking-wide text-slate-500 md:text-sm">
+          <p className="mt-6 font-sans text-xs tracking-wide text-slate-500 sm:mt-8 md:text-sm">
             {t('trust')}
           </p>
         </div>

@@ -11,17 +11,17 @@ export const ReviewCard = memo(({ review }: { review: Review }) => {
     <motion.figure
       whileHover={{ scale: 1.02 }}
       transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-      className="flex h-full w-[340px] max-w-[80vw] flex-col rounded-3xl border border-slate-200/70 bg-white p-6 shadow-sm"
+      className="flex h-full w-[258px] max-w-[78vw] flex-col rounded-3xl border border-slate-200/70 bg-white p-4 shadow-sm sm:w-[300px] sm:p-6 md:w-[340px]"
     >
-      <StarRating value={review.rating} size={16} />
+      <StarRating value={review.rating} size={15} />
 
-      <blockquote className="mt-4 flex-1 font-sans text-base leading-relaxed text-slate-700">
+      <blockquote className="mt-3 flex-1 font-sans text-sm leading-relaxed text-slate-700 sm:mt-4 sm:text-base">
         {review.text}
       </blockquote>
 
-      <figcaption className="mt-5 flex items-center gap-3">
+      <figcaption className="mt-4 flex items-center gap-2.5 sm:mt-5 sm:gap-3">
         <span
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white sm:h-10 sm:w-10"
           style={{ backgroundColor: review.userAvatarColor }}
         >
           {review.userName.charAt(0).toUpperCase()}
