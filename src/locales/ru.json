@@ -349,7 +349,11 @@
     "safety_title": "Рекомендации по безопасности",
     "kaspi": "Kaspi Магазин",
     "halyk": "Halyk Market",
-    "unavailable": "Пока недоступно на этой площадке"
+    "unavailable": "Пока недоступно на этой площадке",
+    "delivery_pickup": "Самовывоз со всех точек",
+    "delivery_market": "Доставка Kaspi и Halyk",
+    "delivery_courier": "Курьер по городу",
+    "delivery_free": "бесплатно"
   },
   "Common": {
     "error_title": "Что-то пошло не так",

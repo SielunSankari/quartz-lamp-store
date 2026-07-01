@@ -348,7 +348,11 @@
     "safety_title": "Қауіпсіздік ұсыныстары",
     "kaspi": "Kaspi Дүкені",
     "halyk": "Halyk Market",
-    "unavailable": "Бұл алаңда әзірге қолжетімсіз"
+    "unavailable": "Бұл алаңда әзірге қолжетімсіз",
+    "delivery_pickup": "Барлық нүктелерден өзін-өзі алу",
+    "delivery_market": "Kaspi және Halyk жеткізуі",
+    "delivery_courier": "Қала бойынша курьер",
+    "delivery_free": "тегін"
   },
   "Common": {
     "error_title": "Бірдеңе дұрыс болмады",

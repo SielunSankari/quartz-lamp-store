@@ -5,7 +5,7 @@ import { ProductGallery } from '@/components/ProductGallery';
 import { routing } from '@/libs/i18nNavigation';
 import { getProduct, getProducts } from '@/libs/products';
 import { buildAlternates, getBaseUrl, getI18nPath } from '@/utils/Helpers';
-import { Check, MapPin, ShieldAlert } from 'lucide-react';
+import { Check, MapPin, ShieldAlert, Store, Truck } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 
@@ -119,6 +119,37 @@ export default async function ProductPage({ params }: ProductPageProps) {
               {' '}
               ₸
             </p>
+
+            {/* Способы получения: самовывоз и маркетплейсы бесплатно, курьер по городу +фикс. */}
+            <div className="mt-5 overflow-hidden rounded-2xl border border-slate-200/70 bg-slate-50/50">
+              <div className="flex items-center justify-between gap-3 px-4 py-3">
+                <span className="flex items-center gap-2.5 font-sans text-sm text-slate-700">
+                  <Store className="h-5 w-5 shrink-0 text-emerald-500" strokeWidth={1.8} />
+                  {t('delivery_pickup')}
+                </span>
+                <span className="font-sans text-sm font-semibold text-emerald-600">{t('delivery_free')}</span>
+              </div>
+              <div className="flex items-center justify-between gap-3 border-t border-slate-200/70 px-4 py-3">
+                <span className="flex items-center gap-2.5 font-sans text-sm text-slate-700">
+                  <Truck className="h-5 w-5 shrink-0 text-emerald-500" strokeWidth={1.8} />
+                  {t('delivery_market')}
+                </span>
+                <span className="font-sans text-sm font-semibold text-emerald-600">{t('delivery_free')}</span>
+              </div>
+              <div className="flex items-center justify-between gap-3 border-t border-slate-200/70 px-4 py-3">
+                <span className="flex items-center gap-2.5 font-sans text-sm text-slate-700">
+                  <Truck className="h-5 w-5 shrink-0 text-slate-400" strokeWidth={1.8} />
+                  {t('delivery_courier')}
+                </span>
+                <span className="font-sans text-sm font-medium text-slate-500">
+                  +
+                  {(4000).toLocaleString('ru-RU')}
+                  {' '}
+                  ₸
+                </span>
+              </div>
+            </div>
+
             <div className="mt-6 flex flex-col gap-3">
               <AddToCartButton
                 product={product}
