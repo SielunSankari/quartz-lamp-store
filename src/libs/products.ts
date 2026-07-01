@@ -4,6 +4,7 @@
 import type { Product } from '@/types/shop';
 import { db } from '@/libs/firebase';
 import { collection, doc, getDoc, getDocs, orderBy, query } from 'firebase/firestore';
+import { cache } from 'react';
 
 // Превращаем «сырой» документ Firestore в типизированный Product с защитой от мусора.
 function toProduct(id: string, data: Record<string, unknown>): Product {
@@ -38,19 +39,23 @@ function toProduct(id: string, data: Record<string, unknown>): Product {
   };
 }
 
-export async function getProducts(): Promise<Product[]> {
+// cache() дедуплицирует чтение в пределах одного рендера запроса — например,
+// generateMetadata и сам компонент страницы товара вызывают getProduct с тем же
+// id, но к Firestore уходит лишь один запрос. Кэширование между запросами
+// обеспечивает ISR (`export const revalidate` на страницах).
+export const getProducts = cache(async (): Promise<Product[]> => {
   const q = query(collection(db, 'products'), orderBy('price'));
   const snapshot = await getDocs(q);
   return snapshot.docs
     .map(d => toProduct(d.id, d.data()))
     .filter(p => p.name && p.price > 0);
-}
+});
 
-export async function getProduct(id: string): Promise<Product | null> {
+export const getProduct = cache(async (id: string): Promise<Product | null> => {
   const ref = doc(db, 'products', id);
   const snapshot = await getDoc(ref);
   if (!snapshot.exists()) {
     return null;
   }
   return toProduct(snapshot.id, snapshot.data());
-}
+});

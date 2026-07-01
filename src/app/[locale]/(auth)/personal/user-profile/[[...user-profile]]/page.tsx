@@ -1,5 +1,6 @@
 import Profile from '@/components/Profile'; // Если компонент действительно находится здесь
 import { routing } from '@/libs/i18nNavigation';
+import { buildAlternates } from '@/utils/Helpers';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 type IUserProfilePageProps = {
@@ -17,6 +18,7 @@ export async function generateMetadata({ params }: IUserProfilePageProps) {
 
   return {
     title: t('meta_title'),
+    alternates: buildAlternates('/personal/user-profile', locale),
   };
 }
 

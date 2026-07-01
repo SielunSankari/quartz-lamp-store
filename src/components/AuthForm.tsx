@@ -185,7 +185,7 @@ export function AuthForm({ mode, locale }: { mode: Mode; locale: string }) {
               showVerifyRef.current = false;
               router.replace(profileHref);
             }}
-            className="mt-6 inline-flex h-12 items-center justify-center rounded-full bg-sky-600 px-8 font-sans text-sm font-medium text-white shadow-sm transition-all hover:bg-sky-700 hover:shadow-md"
+            className="mt-6 inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-sky-600 to-violet-500 px-8 font-sans text-sm font-medium text-white shadow-sm transition-all hover:from-sky-700 hover:to-violet-600 hover:shadow-md"
           >
             {t('go_profile')}
           </button>
@@ -276,7 +276,7 @@ export function AuthForm({ mode, locale }: { mode: Mode; locale: string }) {
           <button
             type="submit"
             disabled={pending}
-            className="h-12 w-full rounded-full bg-sky-600 font-sans text-sm font-medium text-white shadow-sm transition-all hover:bg-sky-700 hover:shadow-md disabled:opacity-50"
+            className="h-12 w-full rounded-full bg-gradient-to-r from-sky-600 to-violet-500 font-sans text-sm font-medium text-white shadow-sm transition-all hover:from-sky-700 hover:to-violet-600 hover:shadow-md disabled:opacity-50"
           >
             {pending ? t('processing') : mode === 'signup' ? t('signup_btn') : t('signin_btn')}
           </button>
@@ -298,7 +298,7 @@ export function AuthForm({ mode, locale }: { mode: Mode; locale: string }) {
           <button
             type="submit"
             disabled={pending}
-            className="h-12 w-full rounded-full bg-sky-600 font-sans text-sm font-medium text-white shadow-sm transition-all hover:bg-sky-700 hover:shadow-md disabled:opacity-50"
+            className="h-12 w-full rounded-full bg-gradient-to-r from-sky-600 to-violet-500 font-sans text-sm font-medium text-white shadow-sm transition-all hover:from-sky-700 hover:to-violet-600 hover:shadow-md disabled:opacity-50"
           >
             {pending ? t('sending') : t('get_code')}
           </button>
@@ -320,7 +320,7 @@ export function AuthForm({ mode, locale }: { mode: Mode; locale: string }) {
           <button
             type="submit"
             disabled={pending}
-            className="h-12 w-full rounded-full bg-sky-600 font-sans text-sm font-medium text-white shadow-sm transition-all hover:bg-sky-700 hover:shadow-md disabled:opacity-50"
+            className="h-12 w-full rounded-full bg-gradient-to-r from-sky-600 to-violet-500 font-sans text-sm font-medium text-white shadow-sm transition-all hover:from-sky-700 hover:to-violet-600 hover:shadow-md disabled:opacity-50"
           >
             {pending ? t('processing') : t('verify_code')}
           </button>

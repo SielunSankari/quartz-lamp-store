@@ -1,4 +1,5 @@
 import { CertificateViewer } from '@/components/CertificateViewer';
+import { buildAlternates } from '@/utils/Helpers';
 import { Check, MapPin } from 'lucide-react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Image from 'next/image';
@@ -14,6 +15,7 @@ export async function generateMetadata(props: IAboutProps) {
   return {
     title: t('meta_title'),
     description: t('meta_description'),
+    alternates: buildAlternates('/about', locale),
   };
 }
 

@@ -1,5 +1,6 @@
 import { AuthForm } from '@/components/AuthForm';
 import { routing } from '@/libs/i18nNavigation';
+import { buildAlternates } from '@/utils/Helpers';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 type ISignInPageProps = {
@@ -18,6 +19,7 @@ export async function generateMetadata({ params }: ISignInPageProps) {
   return {
     title: t('meta_title'),
     description: t('meta_description'),
+    alternates: buildAlternates('/sign-in', locale),
   };
 }
 

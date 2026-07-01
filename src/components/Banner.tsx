@@ -47,7 +47,7 @@ const Banner = () => {
           <div className="mt-3 h-8 sm:mt-4 sm:h-9 md:h-10">
             <RotatingText
               items={qualities}
-              className="font-sans text-xl font-medium tracking-tight text-sky-600 sm:text-2xl md:text-3xl"
+              className="bg-gradient-to-r from-sky-600 to-violet-500 bg-clip-text font-sans text-xl font-medium tracking-tight text-transparent sm:text-2xl md:text-3xl"
             />
           </div>
 

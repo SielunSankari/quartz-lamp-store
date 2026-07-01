@@ -9,8 +9,8 @@ export async function register() {
       // Sentry DSN
       dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
-      // Adjust this value in production, or use tracesSampler for greater control
-      tracesSampleRate: 1,
+      // В проде трассируем 10% запросов, чтобы не жечь квоту; в dev — все.
+      tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1,
 
       // Setting this option to true will print useful information to the console while you're setting up Sentry.
       debug: false,
@@ -23,8 +23,8 @@ export async function register() {
       // Sentry DSN
       dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
-      // Adjust this value in production, or use tracesSampler for greater control
-      tracesSampleRate: 1,
+      // В проде трассируем 10% запросов, чтобы не жечь квоту; в dev — все.
+      tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1,
 
       // Setting this option to true will print useful information to the console while you're setting up Sentry.
       debug: false,

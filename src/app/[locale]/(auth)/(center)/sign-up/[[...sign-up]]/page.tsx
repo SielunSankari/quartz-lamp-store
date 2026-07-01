@@ -1,4 +1,5 @@
 import { AuthForm } from '@/components/AuthForm';
+import { buildAlternates } from '@/utils/Helpers';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 type ISignUpPageProps = {
@@ -17,6 +18,7 @@ export async function generateMetadata({ params }: ISignUpPageProps) {
   return {
     title: t('meta_title'),
     description: t('meta_description'),
+    alternates: buildAlternates('/sign-up', locale),
   };
 }
 

@@ -6,6 +6,8 @@ import { AuthProvider } from '@/providers/AuthProvider';
 import { CartProvider } from '@/providers/CartProvider';
 import { CityProvider } from '@/providers/CityProvider';
 import { BaseTemplate } from '@/templates/BaseTemplate';
+import { AppConfig } from '@/utils/AppConfig';
+import { getBaseUrl } from '@/utils/Helpers';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import { Inter } from 'next/font/google';
@@ -21,14 +23,47 @@ const inter = Inter({
   display: 'swap',
 });
 
-export const metadata: Metadata = {
-  icons: [
-    { rel: 'apple-touch-icon', url: '/apple-touch-icon.png' },
-    { rel: 'icon', type: 'image/png', sizes: '32x32', url: '/favicon-32x32.png' },
-    { rel: 'icon', type: 'image/png', sizes: '16x16', url: '/favicon-16x16.png' },
-    { rel: 'icon', url: '/favicon.ico' },
-  ],
-};
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await props.params;
+  const t = await getTranslations({ locale, namespace: 'Index' });
+
+  // ВАЖНО: canonical здесь НЕ задаём. Корневой layout применяется ко всем
+  // страницам, и любой canonical отсюда унаследовался бы всеми подстраницами
+  // (каталог/товары указывали бы на главную). Самоканоникал + hreflang каждая
+  // страница задаёт сама через buildAlternates() в своём generateMetadata.
+  return {
+    metadataBase: new URL(getBaseUrl()),
+    title: {
+      default: t('meta_title'),
+      template: `%s - ${AppConfig.name}`,
+    },
+    description: t('meta_description'),
+    applicationName: AppConfig.name,
+    manifest: '/manifest.webmanifest',
+    openGraph: {
+      type: 'website',
+      siteName: AppConfig.name,
+      locale: locale === 'kz' ? 'kk_KZ' : 'ru_RU',
+      title: t('meta_title'),
+      description: t('meta_description'),
+      images: [{ url: '/og-image.png', width: 1200, height: 630, alt: AppConfig.name }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: t('meta_title'),
+      description: t('meta_description'),
+      images: ['/og-image.png'],
+    },
+    icons: [
+      { rel: 'apple-touch-icon', url: '/apple-touch-icon.png' },
+      { rel: 'icon', type: 'image/png', sizes: '32x32', url: '/favicon-32x32.png' },
+      { rel: 'icon', type: 'image/png', sizes: '16x16', url: '/favicon-16x16.png' },
+      { rel: 'icon', url: '/favicon.ico' },
+    ],
+  };
+}
 
 export function generateStaticParams() {
   return routing.locales.map(locale => ({ locale }));

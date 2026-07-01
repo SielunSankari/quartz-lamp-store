@@ -22,11 +22,20 @@ service cloud.firestore {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
 
-    // Заказы создаёт и читает их владелец. Менять статус (оплачен/нет)
-    // разрешено только серверу (Admin SDK), поэтому update/delete с клиента запрещены.
+    // Заказы создаёт и читает их владелец. Статус «оплачен» ставит ТОЛЬКО сервер
+    // (Admin SDK в /api/webhook после проверки подписи Stripe), поэтому:
+    //  • при создании с клиента статус обязан быть 'pending' (нельзя записать 'paid');
+    //  • сумма/позиции валидируются по типу (реальная сумма всё равно
+    //    пересчитывается сервером в /api/checkout — это лишь защита от мусора);
+    //  • update/delete с клиента запрещены полностью.
     match /orders/{orderId} {
       allow create: if request.auth != null
-                    && request.resource.data.userId == request.auth.uid;
+                    && request.resource.data.userId == request.auth.uid
+                    && request.resource.data.status == 'pending'
+                    && request.resource.data.total is number
+                    && request.resource.data.total >= 0
+                    && request.resource.data.items is list
+                    && request.resource.data.createdAt is number;
       allow read: if request.auth != null
                   && resource.data.userId == request.auth.uid;
       allow update, delete: if false;

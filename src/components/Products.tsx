@@ -1,10 +1,11 @@
-'use client';
-
 import type { Product } from '@/types/shop';
 import { AddToCartButton } from '@/components/AddToCartButton';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
+
+// Серверный компонент: список каталога рендерится на сервере (меньше JS в браузер).
+// Интерактивная часть изолирована в клиентской кнопке <AddToCartButton>.
 
 export default function Products({ products }: { products: Product[] }) {
   const t = useTranslations('Products');
@@ -77,7 +78,7 @@ export default function Products({ products }: { products: Product[] }) {
 
                   <AddToCartButton
                     product={product}
-                    className="h-11 w-full rounded-full bg-sky-600 font-sans text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-sky-700 hover:shadow-md"
+                    className="h-11 w-full rounded-full bg-gradient-to-r from-sky-600 to-violet-500 font-sans text-sm font-medium text-white shadow-sm transition-all duration-200 hover:from-sky-700 hover:to-violet-600 hover:shadow-md"
                   />
                 </div>
               </div>

@@ -31,9 +31,46 @@ export async function POST(request: Request) {
     const orderId = session.metadata?.orderId;
     const uid = session.metadata?.uid;
 
-    if (orderId) {
-      await adminDb.collection('orders').doc(orderId).update({ status: 'paid' });
+    // Событие «completed» ещё не гарантирует оплату (у отложенных методов оплаты
+    // сессия завершена, но payment_status = 'unpaid'). Помечаем оплаченным только
+    // при реально прошедшем платеже.
+    if (session.payment_status !== 'paid') {
+      return NextResponse.json({ received: true });
     }
+
+    if (orderId) {
+      const orderRef = adminDb.collection('orders').doc(orderId);
+      try {
+        // Транзакция даёт идемпотентность (повторные вебхуки Stripe не навредят)
+        // и сверку суммы: заказ помечается 'paid' только один раз и только если
+        // Stripe списал ровно ту сумму, что мы рассчитали (KZT × 100 = тиыны).
+        await adminDb.runTransaction(async (tx) => {
+          const snap = await tx.get(orderRef);
+          if (!snap.exists) {
+            return;
+          }
+
+          const order = snap.data() as { status?: string; total?: number };
+          if (order.status === 'paid') {
+            return; // уже обработан — повторное событие игнорируем
+          }
+
+          const expected = Math.round(Number(order.total ?? 0) * 100);
+          if (session.amount_total !== expected) {
+            console.error(
+              `Amount mismatch for order ${orderId}: paid ${session.amount_total}, expected ${expected}`,
+            );
+            return;
+          }
+
+          tx.update(orderRef, { status: 'paid', paidAt: Date.now() });
+        });
+      } catch (err) {
+        console.error('Failed to mark order paid:', err);
+        return NextResponse.json({ error: 'Processing failed' }, { status: 500 });
+      }
+    }
+
     // Очищаем корзину пользователя после успешной оплаты.
     if (uid) {
       await adminDb.collection('carts').doc(uid).set({ items: [] }, { merge: true });

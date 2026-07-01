@@ -1,7 +1,17 @@
 import type { CartItem, Product } from '@/types/shop';
+import arcjet from '@/libs/Arcjet';
 import { adminAuth, adminDb } from '@/libs/firebaseAdmin';
 import { getStripe } from '@/libs/stripe';
+import { getBaseUrl } from '@/utils/Helpers';
+import { fixedWindow } from '@arcjet/next';
 import { NextResponse } from 'next/server';
+
+// Rate limit: не больше 10 запросов checkout за минуту с одного IP.
+// Middleware пропускает /api без проверки (иначе ломается вебхук Stripe),
+// поэтому защиту навешиваем прямо на маршрут.
+const aj = arcjet.withRule(
+  fixedWindow({ mode: 'LIVE', window: '60s', max: 10 }),
+);
 
 // POST /api/checkout
 // 1) проверяем, что запрос от вошедшего пользователя (Firebase ID token);
@@ -11,6 +21,15 @@ import { NextResponse } from 'next/server';
 // 4) создаём заказ pending и Stripe Checkout Session.
 export async function POST(request: Request) {
   try {
+    // --- Rate limiting / bot shield (если задан ARCJET_KEY) ---
+    if (process.env.ARCJET_KEY) {
+      const decision = await aj.protect(request);
+      if (decision.isDenied()) {
+        const status = decision.reason.isRateLimit() ? 429 : 403;
+        return NextResponse.json({ error: 'Too many requests' }, { status });
+      }
+    }
+
     // --- Авторизация ---
     const authHeader = request.headers.get('Authorization') ?? '';
     const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : '';
@@ -28,18 +47,27 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Cart is empty' }, { status: 400 });
     }
 
-    // --- Перечитываем реальные товары из products и пересобираем позиции ---
+    // --- Перечитываем реальные товары из products одним пакетным запросом ---
+    // (getAll вместо последовательных get в цикле — один round-trip вместо N).
+    const uniqueIds = [...new Set(cartItems.map(i => i.id))];
+    const productRefs = uniqueIds.map(id => adminDb.collection('products').doc(id));
+    const productSnaps = await adminDb.getAll(...productRefs);
+    const productById = new Map(
+      productSnaps
+        .filter(snap => snap.exists)
+        .map(snap => [snap.id, snap.data() as Omit<Product, 'id'>]),
+    );
+
     const verifiedItems: CartItem[] = [];
     for (const cartItem of cartItems) {
       const quantity = Math.max(1, Math.floor(Number(cartItem.quantity) || 0));
-      const productSnap = await adminDb.collection('products').doc(cartItem.id).get();
+      const product = productById.get(cartItem.id);
 
       // Товар пропал из каталога — пропускаем его (не даём купить «фантом»).
-      if (!productSnap.exists) {
+      if (!product) {
         continue;
       }
 
-      const product = productSnap.data() as Omit<Product, 'id'>;
       verifiedItems.push({
         id: cartItem.id,
         name: product.name, // имя и цена — из БД, а не из корзины
@@ -66,7 +94,7 @@ export async function POST(request: Request) {
     });
 
     // --- Stripe Checkout Session ---
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
+    const appUrl = getBaseUrl();
     const session = await getStripe().checkout.sessions.create({
       mode: 'payment',
       // KZT не входит в zero-decimal валюты Stripe → сумма в тиынах (× 100).

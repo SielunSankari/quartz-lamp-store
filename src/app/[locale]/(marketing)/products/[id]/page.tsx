@@ -1,15 +1,37 @@
 import { AddToCartButton } from '@/components/AddToCartButton';
+import { JsonLd } from '@/components/JsonLd';
 import { ProductGallery } from '@/components/ProductGallery';
-import { getProduct } from '@/libs/products';
+import { routing } from '@/libs/i18nNavigation';
+import { getProduct, getProducts } from '@/libs/products';
+import { buildAlternates, getBaseUrl, getI18nPath } from '@/utils/Helpers';
 import { Check, MapPin, ShieldAlert } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 
 type ProductPageProps = {
   params: Promise<{ id: string; locale: string }>;
 };
 
+// ISR: страница товара статически пре-рендерится и обновляется раз в час,
+// вместо запроса к Firestore на каждый заход. Держит TTFB низким под нагрузкой.
+export const revalidate = 3600;
+
+// Пре-рендер известных товаров на этапе сборки (для каждой локали).
+// Если Firestore недоступен во время сборки — не валим билд: страницы отрендерятся
+// по запросу и закэшируются (dynamicParams по умолчанию включён).
+export async function generateStaticParams() {
+  try {
+    const products = await getProducts();
+    return routing.locales.flatMap(locale =>
+      products.map(product => ({ locale, id: product.id })),
+    );
+  } catch {
+    return [];
+  }
+}
+
 export async function generateMetadata({ params }: ProductPageProps) {
-  const { id } = await params;
+  const { id, locale } = await params;
   const product = await getProduct(id);
 
   if (!product) {
@@ -19,6 +41,7 @@ export async function generateMetadata({ params }: ProductPageProps) {
   return {
     title: product.name,
     description: product.description,
+    alternates: buildAlternates(`/products/${id}`, locale),
     openGraph: {
       title: product.name,
       description: product.description,
@@ -28,7 +51,8 @@ export async function generateMetadata({ params }: ProductPageProps) {
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const { id } = await params;
+  const { id, locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'Product' });
   const product = await getProduct(id);
 
   if (!product) {
@@ -38,8 +62,43 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const images = product.images?.length ? product.images : [product.imageUrl];
   const details = product.details;
 
+  // Structured data (schema.org) — карточка товара и «хлебные крошки» для Google.
+  const baseUrl = getBaseUrl();
+  const productUrl = `${baseUrl}${getI18nPath(`/products/${product.id}`, locale)}`;
+  const absImages = images
+    .filter(Boolean)
+    .map(src => (src.startsWith('http') ? src : `${baseUrl}${src}`));
+
+  const productLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    'name': product.name,
+    'description': details?.summary || product.description,
+    ...(absImages.length ? { image: absImages } : {}),
+    'brand': { '@type': 'Brand', 'name': 'BAIMED' },
+    'offers': {
+      '@type': 'Offer',
+      'url': productUrl,
+      'priceCurrency': 'KZT',
+      'price': product.price,
+      'availability': 'https://schema.org/InStock',
+    },
+  };
+
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    'itemListElement': [
+      { '@type': 'ListItem', 'position': 1, 'name': 'BAIMED', 'item': `${baseUrl}${getI18nPath('/', locale)}` },
+      { '@type': 'ListItem', 'position': 2, 'name': t('catalog'), 'item': `${baseUrl}${getI18nPath('/products', locale)}` },
+      { '@type': 'ListItem', 'position': 3, 'name': product.name, 'item': productUrl },
+    ],
+  };
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
+      <JsonLd data={productLd} />
+      <JsonLd data={breadcrumbLd} />
       {/* Верх: галерея + покупка */}
       <div className="grid gap-10 md:grid-cols-2">
         <ProductGallery images={images} alt={product.alt ?? product.name} />
@@ -62,7 +121,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <AddToCartButton
                 product={product}
-                className="h-12 rounded-full bg-sky-600 px-8 font-sans text-base font-medium text-white shadow-sm transition-all hover:bg-sky-700 hover:shadow-md"
+                className="h-12 rounded-full bg-gradient-to-r from-sky-600 to-violet-500 px-8 font-sans text-base font-medium text-white shadow-sm transition-all hover:from-sky-700 hover:to-violet-600 hover:shadow-md"
               />
               {product.kaspiUrl
                 ? (
@@ -72,7 +131,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                       rel="noopener noreferrer"
                       className="inline-flex h-12 items-center justify-center rounded-full bg-[#F14635] px-8 font-sans text-base font-medium text-white transition-all hover:bg-[#d83a2c] hover:shadow-md"
                     >
-                      Kaspi Магазин
+                      {t('kaspi')}
                     </a>
                   )
                 : null}
@@ -98,7 +157,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       {details?.usage?.length
         ? (
             <section className="mt-16">
-              <h2 className="font-sans text-xl font-semibold text-slate-900 md:text-2xl">Где используется</h2>
+              <h2 className="font-sans text-xl font-semibold text-slate-900 md:text-2xl">{t('usage_title')}</h2>
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
                 {details.usage.map(u => (
                   <div key={u} className="flex items-center gap-3 rounded-2xl border border-slate-200/70 bg-white p-5 font-sans text-base text-slate-700">
@@ -115,7 +174,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       {product.specs?.length
         ? (
             <section className="mt-16">
-              <h2 className="font-sans text-xl font-semibold text-slate-900 md:text-2xl">Технические характеристики</h2>
+              <h2 className="font-sans text-xl font-semibold text-slate-900 md:text-2xl">{t('specs_title')}</h2>
               <dl className="mt-5 overflow-hidden rounded-2xl border border-slate-200/70">
                 {product.specs.map((s, i) => (
                   <div
@@ -137,7 +196,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <section className="mt-16">
               <h2 className="flex items-center gap-2.5 font-sans text-xl font-semibold text-slate-900 md:text-2xl">
                 <ShieldAlert className="h-6 w-6 text-amber-500" strokeWidth={1.8} />
-                Рекомендации по безопасности
+                {t('safety_title')}
               </h2>
               <ol className="mt-6 grid gap-4 sm:grid-cols-2">
                 {details.safety.map((s, i) => (

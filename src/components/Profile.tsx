@@ -48,7 +48,7 @@ export default function Profile() {
         <p className="font-sans text-lg text-slate-600">{t('login_required')}</p>
         <Link
           href="/sign-in/"
-          className="inline-flex rounded-full bg-sky-600 px-6 py-2.5 font-sans text-sm font-medium text-white shadow-sm transition-all hover:bg-sky-700 hover:shadow-md"
+          className="inline-flex rounded-full bg-gradient-to-r from-sky-600 to-violet-500 px-6 py-2.5 font-sans text-sm font-medium text-white shadow-sm transition-all hover:from-sky-700 hover:to-violet-600 hover:shadow-md"
         >
           {t('login_button')}
         </Link>
@@ -65,11 +65,11 @@ export default function Profile() {
         month: 'long',
         year: 'numeric',
       })
-    : '—';
+    : '-';
 
   const stats = [
     { Icon: Calendar, value: memberSince, label: t('member_since'), color: '#0284c7' },
-    { Icon: Package, value: ordersCount ?? '—', label: t('orders_count'), color: '#6d5df6' },
+    { Icon: Package, value: ordersCount ?? '-', label: t('orders_count'), color: '#6d5df6' },
     { Icon: ShoppingCart, value: totalItems, label: t('in_cart_count'), color: '#10b981' },
   ];
 
@@ -253,7 +253,7 @@ export default function Profile() {
                         type="button"
                         onClick={handleCheckout}
                         disabled={checkingOut}
-                        className="inline-flex h-12 items-center justify-center rounded-full bg-sky-600 px-8 font-sans text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-sky-700 hover:shadow-md disabled:opacity-50"
+                        className="inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-sky-600 to-violet-500 px-8 font-sans text-sm font-medium text-white shadow-sm transition-all duration-200 hover:from-sky-700 hover:to-violet-600 hover:shadow-md disabled:opacity-50"
                       >
                         {checkingOut ? t('cart.processing') : t('cart.checkout')}
                       </button>

@@ -193,7 +193,7 @@ export function MobileNav() {
                           <Link
                             href="/sign-up/"
                             onClick={close}
-                            className="flex items-center gap-3.5 rounded-2xl bg-sky-600 px-4 py-3.5 font-sans text-[17px] font-semibold text-white transition-colors hover:bg-sky-700"
+                            className="flex items-center gap-3.5 rounded-2xl bg-gradient-to-r from-sky-600 to-violet-500 px-4 py-3.5 font-sans text-[17px] font-semibold text-white transition-colors hover:from-sky-700 hover:to-violet-600"
                           >
                             <UserPlus className="h-5 w-5" strokeWidth={1.8} />
                             {t('sign_up_link')}
